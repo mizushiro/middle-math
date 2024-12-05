@@ -1,0 +1,64 @@
+@charset "utf-8";
+
+.mdl-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border: .1rem solid #222;
+    padding: $x1 $x2;
+    border-radius: $x1;
+
+    text-decoration: none;
+
+    &[data-style="nav"] {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background-color: $gray-95;
+        color: $gray-0;
+        font-size: 2.6rem;
+        font-weight: 500;
+
+        &:focus {text-decoration: none;}
+    }
+    &[data-style="weather"] {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        color: $gray-95;
+        border:0;
+        font-size: 2.8rem;
+        font-weight: 700;
+        position: relative;
+        
+        &:focus {text-decoration: none;}
+        .icon {
+            font-family: 'Material Symbols Outlined';
+            font-weight: 700;
+        }
+        .temperature{
+            position: absolute;
+            bottom: -1.8rem;
+            width: 100%;
+            display: block;
+            text-align: center;
+            font-size: 1.3rem;
+            color: $gray-100;
+        }
+    }
+
+    &-area {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap:$x1;
+        padding: $x2;
+    }
+    &:focus {
+        text-decoration: underline;
+        text-underline-offset: .3rem;
+    }
+}

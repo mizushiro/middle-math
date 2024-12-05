@@ -1,0 +1,225 @@
+/* mdl-loading */
+.mdl-loading {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    animation-name: fadeOut;
+    animation-duration: .5s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+
+    &.type-area{position: absolute;}
+    &.type-area::after{position: absolute !important;}
+    &.visible {
+        display: block;
+        animation-name: fadeIn;
+        animation-duration: .5s;
+        animation-iteration-count: 1;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+    }
+
+    .mdl-loading-message {
+        font-size: 14px;
+        color: #fff;
+        width: 120px;
+        position: absolute;
+        left: 50%;
+        bottom: -30px;
+        margin-left: -60px;
+        text-align: center;
+    
+        span {
+            display: block;
+            padding: 2px;
+        }
+    }
+
+    /* style - clock */
+    &.clock{
+        &::after {
+            content: "";
+            display: block;
+            position: fixed;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.5);
+            animation-name: fadeIn;
+            animation-duration: 0.5s;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: forwards;
+        }
+        &.close::after {
+            animation-name: fadeOut;
+            animation-duration: 0.25s;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in;
+            animation-fill-mode: forwards;
+        }
+    
+        .mdl-loading-wrap {
+            position: absolute;
+            z-index: 1;
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            left: 50%;
+            margin: -40px 0 0 -40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        
+            &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                z-index: 1;
+                left: 50%;
+                top: 40px;
+                margin-left: -20px;
+                border-radius: 1px;
+                width: 40px;
+                height: 1px;
+                background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 100%);
+                animation-name: clockAni;
+                animation-duration: 12s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }   
+            &::before {
+                content: "";
+                display: block;
+                position: absolute;
+                z-index: 1;
+                left: 50%;
+                top: 40px;
+                margin-left: -30px;
+                border-radius: 1px;
+                width: 60px;
+                height: 1px;
+                background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 100%);
+                animation-name: clockAni;
+                animation-duration: 1.2s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+        }
+    }
+    /* style - orbit */
+    &.orbit {
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            z-index: 0;
+            width: 0;
+            height: 0;
+            top: 50%;
+            left: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            animation-name: orbitScaleShowAni;
+            animation-duration: 0.5s;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: forwards;
+        }
+        &.close:after {
+            animation-name: orbitScaleHideAni;
+            animation-duration: 0.25s;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in;
+            animation-fill-mode: forwards;
+        }
+    
+        .mdl-loading-wrap {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            left: 50%;
+            margin: -40px 0 0 -40px;
+            z-index: 1;
+    
+            &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                left: 0;
+                top: calc(50% - 10px);
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                background: #F5F5F5;
+                animation-name: orbitLeftAni;
+                animation-duration: 1.5s;
+                animation-iteration-count: infinite;
+                animation-timing-function: ease-in-out;
+                animation-direction: reverse;
+            }
+            &::before {
+                content: "";
+                display: block;
+                position: absolute;
+                right: 0;
+                top: calc(50% - 10px);
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                background: #212121;
+                animation-name: orbitRightAni;
+                animation-duration: 1.5s;
+                animation-iteration-count: infinite;
+                animation-timing-function: ease-in-out;
+                animation-direction: reverse;
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0; visibility: hidden;}
+}
+@keyframes clockAni {
+    0% { transform: rotate(0)}
+    100% {transform: rotate(360deg)}
+}
+@keyframes orbitLeftAni {
+    0% {left: 0;z-index: 2;opacity: 1;}
+    50% {left: calc(100% - 20px);z-index: 2;opacity: 1;}
+    51% {left: calc(100% - 20px);z-index: 1;opacity: 1;}
+    100% {left: 0;z-index: 1;opacity: 1;}
+}
+@keyframes orbitRightAni {
+    0% {left: calc(100% - 20px);z-index: 1;opacity: 1;}
+    50% {left: 0;z-index: 1;opacity: 1;}
+    51% {left: 0;z-index: 2;opacity: 1;}
+    100% {left: calc(100% - 20px);z-index: 2;opacity: 1;}
+}
+@keyframes orbitScaleShowAni {
+    0% {width: 0; height: 0;}
+    100% {width: 150vmax;height: 150vmax;}
+}
+@keyframes orbitScaleHideAni {
+    0% {width: 150vmax;height: 150vmax;}
+    100% {width: 0;height: 0;}
+}

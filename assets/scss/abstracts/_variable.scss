@@ -1,0 +1,160 @@
+@charset "utf-8";
+
+:root {
+    --opacity_1: 1;
+    --opacity_0: 0;
+    --vh: 1vh;
+ 
+    /* iOS 11.2 이상 */
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+  
+    --basic: #FFD700;
+    --sub: #FF612D; 
+
+    /* Grayscale */
+    --gray_100: #000;
+    --gray_95:  #222;
+    --gray_90:  #444;
+    --gray_80:  #666;
+    --gray_70:  #777;
+    --gray_60:  #999;
+    --gray_50:  #ccc;
+    --gray_40:  #d7d7d7;
+    --gray_30:  #e5e5e5;
+    --gray_20:  #eee;
+    --gray_10:  #f7f7f7;
+    --gray_0:   #fff;
+}
+:root.dark {
+
+    /* Grayscale */
+    --gray_0:   #000;
+    --gray_10:  #222;
+    --gray_20:  #444;
+    --gray_30:  #666;
+    --gray_40:  #777;
+    --gray_50:  #999;
+    --gray_60:  #ccc;
+    --gray_70:  #d7d7d7;
+    --gray_80:  #e5e5e5;
+    --gray_90:  #eee;
+    --gray_95:  #f7f7f7;
+    --gray_100: #fff;
+
+}
+
+$gray-100: var(--gray_100);
+$gray-95: var(--gray_95);
+$gray-90: var(--gray_90);
+$gray-80: var(--gray_80);
+$gray-70: var(--gray_70);
+$gray-60: var(--gray_60);
+$gray-50: var(--gray_50);
+$gray-40: var(--gray_40);
+$gray-30: var(--gray_30);
+$gray-20: var(--gray_20);
+$gray-10: var(--gray_10);
+$gray-0: var(--gray_0);
+  
+//REM 기준
+$font-default-size: 62.5%;
+$font-default-size-m: 2.2vw;
+$font-default-size-t: 1vw;
+$maxwidth: 40rem;
+
+//기본간격
+$gap: 0.8rem;
+$gap-h: calc($gap / 2);
+@mixin getGap($name, $n) {
+    #{$name} : $gap * $n;
+}
+
+$x0: calc($gap * 0);
+$x1: calc($gap * 1);
+$x2: calc($gap * 2);
+$x3: calc($gap * 3);
+$x4: calc($gap * 4);
+$x5: calc($gap * 5);
+$x6: calc($gap * 6);
+$x7: calc($gap * 7);
+$x8: calc($gap * 8);
+$x9: calc($gap * 9);
+$x10: calc($gap * 10);
+$x11: calc($gap * 11);
+$x12: calc($gap * 12);
+$x13: calc($gap * 13);
+$x14: calc($gap * 14);
+$x15: calc($gap * 15);
+$x16: calc($gap * 16);
+$x17: calc($gap * 17);
+$x18: calc($gap * 18);
+$x19: calc($gap * 19);
+$x20: calc($gap * 20);
+
+$x0_5: calc($gap-h);
+$x1_5: calc($gap * 1 + $gap-h);
+$x2_5: calc($gap * 2 + $gap-h);
+$x3_5: calc($gap * 3 + $gap-h);
+$x4_5: calc($gap * 4 + $gap-h);
+$x5_5: calc($gap * 5 + $gap-h);
+$x6_5: calc($gap * 6 + $gap-h);
+$x7_5: calc($gap * 7 + $gap-h);
+$x8_5: calc($gap * 8 + $gap-h);
+$x9_5: calc($gap * 9 + $gap-h);
+$x10_5: calc($gap * 10 + $gap-h);
+$x11_5: calc($gap * 11 + $gap-h);
+$x12_5: calc($gap * 12 + $gap-h);
+$x13_5: calc($gap * 13 + $gap-h);
+$x14_5: calc($gap * 14 + $gap-h);
+$x15_5: calc($gap * 15 + $gap-h);
+$x16_5: calc($gap * 16 + $gap-h);
+$x17_5: calc($gap * 17 + $gap-h);
+$x18_5: calc($gap * 18 + $gap-h);
+$x19_5: calc($gap * 19 + $gap-h);
+$x20_5: calc($gap * 20 + $gap-h);
+
+$-x1: calc($gap * -1);
+$-x2: calc($gap * -2);
+$-x3: calc($gap * -3);
+$-x4: calc($gap * -4);
+$-x5: calc($gap * -5);
+$-x6: calc($gap * -6);
+$-x7: calc($gap * -7);
+$-x8: calc($gap * -8);
+$-x9: calc($gap * -9);
+$-x10: calc($gap * -10);
+$-x11: calc($gap * -11);
+$-x12: calc($gap * -12);
+$-x13: calc($gap * -13);
+$-x14: calc($gap * -14);
+$-x15: calc($gap * -15);
+$-x16: calc($gap * -16);
+$-x17: calc($gap * -17);
+$-x18: calc($gap * -18);
+$-x19: calc($gap * -19);
+$-x20: calc($gap * -20);
+
+$-x0_5: calc($gap-h * -1);
+$-x1_5: calc($gap * -1 - $gap-h);
+$-x2_5: calc($gap * -2 - $gap-h);
+$-x3_5: calc($gap * -3 - $gap-h);
+$-x4_5: calc($gap * -4 - $gap-h);
+$-x5_5: calc($gap * -5 - $gap-h);
+$-x6_5: calc($gap * -6 - $gap-h);
+$-x7_5: calc($gap * -7 - $gap-h);
+$-x8_5: calc($gap * -8 - $gap-h);
+$-x9_5: calc($gap * -9 - $gap-h);
+$-x10_5: calc($gap * -10 - $gap-h);
+$-x11_5: calc($gap * -11 - $gap-h);
+$-x12_5: calc($gap * -12 - $gap-h);
+$-x13_5: calc($gap * -13 - $gap-h);
+$-x14_5: calc($gap * -14 - $gap-h);
+$-x15_5: calc($gap * -15 - $gap-h);
+$-x16_5: calc($gap * -16 - $gap-h);
+$-x17_5: calc($gap * -17 - $gap-h);
+$-x18_5: calc($gap * -18 - $gap-h);
+$-x19_5: calc($gap * -19 - $gap-h);
+$-x20_5: calc($gap * -20 - $gap-h);

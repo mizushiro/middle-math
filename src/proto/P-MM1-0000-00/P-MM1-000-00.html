@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="../../../assets/libs/video-js.css">
+	<link rel="stylesheet" href="../../../assets/css/app.css">
+</head>
+
+<body>
+	<div class="base-wrap">
+		<header class="base-header">
+			<ul class="breadcrumbs">
+				<li>1. 대단원</li>
+				<li>중단원</li>
+				<li>소단원</li>
+			</ul>
+		</header>
+		<main class="base-main">
+			<video
+				id="my-player"
+				class="video-js"
+				controls
+				preload="auto"
+				width="800"
+				height="335"
+				poster="//vjs.zencdn.net/v/oceans.png"
+				data-setup='{}'>
+				<source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+				<source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
+				<source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
+				<track
+						src="subtitles-ko.vtt"
+						kind="subtitles"
+						srclang="ko"
+						label="Korean"
+					/>
+				<p class="vjs-no-js">
+					To view this video please enable JavaScript, and consider upgrading to a
+					web browser that
+					<a href="https://videojs.com/html5-video-support/" target="_blank">
+					supports HTML5 video
+					</a>
+				</p>
+			</video>
+
+			<box>
+				<div 
+				data-line-id="test001" 
+				data-line-type="single" 
+				data-line-direction="column">
+					<div data-line-group="object">
+						<div data-line-item>
+							<button data-line-object="1" type="button" aria-label="응용 소프트웨어1" data-label="응용 소프트웨어1">
+							</button>
+							<div data-line-content>
+								<math display="block">
+									<mrow>
+										<mi>x</mi>
+										<mo>=</mo>
+										<mfrac>
+											<mrow>
+												<mrow>
+													<mo>−</mo>
+													<mi>b</mi>
+												</mrow>
+												<mo>±</mo>
+												<msqrt>
+													<mrow>
+														<msup>
+															<mi>b</mi>
+															<mn>2</mn>
+														</msup>
+														<mo>−</mo>
+														<mrow>
+															<mn>4</mn>
+															<mo>⁢</mo>
+															<mi>a</mi>
+															<mo>⁢</mo>
+															<mi>c</mi>
+														</mrow>
+													</mrow>
+												</msqrt>
+											</mrow>
+											<mrow>
+												<mn>2</mn>
+												<mo>⁢</mo>
+												<mi>a</mi>
+											</mrow>
+										</mfrac>
+									</mrow>
+								</math>
+							</div>
+						</div>
+						<div data-line-item>
+							<button data-line-object="2" type="button" aria-label="응용 소프트웨어2" data-label="응용 소프트웨어2">
+							</button>
+							<div data-line-content>
+								<img src="../../../assets/img/dummy/dragline_img.png" alt="소프트웨어" />
+							</div>
+						</div>
+						<div data-line-item>
+							<button data-line-object="3" type="button" aria-label="응용 소프트웨어3" data-label="응용 소프트웨어3">
+							</button>
+							<div data-line-content>
+								<img src="../../../assets/img/dummy/dragline_img.png" alt="" />
+								<div>
+									드래그라인 <br />텍스트입니다.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div data-line-group="target">
+						<div data-line-item>
+							<button data-line-target="1" type="button" aria-label="문제 키워드1" data-label="문제 키워드1" tabindex="-1"></button>
+							<div data-line-content>
+								문제 키워드1
+							</div>
+						</div>
+						<div data-line-item>
+							<button data-line-target="2" type="button" aria-label="문제 키워드2" data-label="문제 키워드2" tabindex="-1"></button>
+							<div data-line-content>
+								<img src="../../../assets/img/dummy/dragline_img.png" alt="문제 키워드2" />
+							</div>
+						</div>
+						<div data-line-item>
+							<button data-line-target="3" type="button" aria-label="문제 키워드3" data-label="문제 키워드3" tabindex="-1"></button>
+							<div data-line-content>
+								<img src="../../../assets/img/dummy/dragline_img.png" alt="" />
+								<div>드래그라인 <br />텍스트입니다.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mdl-button-area">
+					<button type="button" class="mdl-button" onclick="UI.exe.test001.check()">정답 체크</button>
+					<button type="button" class="mdl-button" onclick="UI.exe.test001.complete()">정답 확인</button>
+					<button type="button" class="mdl-button" onclick="UI.exe.test001.reset()">정답 리셋</button>
+					<button type="button" class="mdl-button" onclick="UI.exe.test001.drawLastAnswer(UI.answer.test001)">데이타
+						적용</button>
+				</div>
+			</box>
+		</main>
+	</div>
+
+	<!-- script -->
+	<script src="../../../assets/js/ui.global.js"></script>
+	<script src="../../../assets/libs/video.js"></script>
+	<script>
+		UI.json = {};
+		//UI.answer[화면아이디_문제아이디]
+		/**
+		 * @param {string} 	id: {{data-line-id}}
+		 * @param {number} 	answer: 전체 정답갯수 
+		 * @param {boolean} isAnswer: 전체 정답여부 {{ true(정답) | false(오답) }}
+		 * @param {array(object)} lastAnswer: 마지막 입력 정보 null | 
+		 * 	[{ 
+		 * 		key{{data-line-object의 data-name}}: '{{data-line-object 값}}',
+		 * 		key{{data-line-target의 data-name}}: '{{data-line-target 값}}',
+		 * 		label : '{{접근성용 라벨내용}}',
+		 * 	},]
+		 */  
+		console.log(UI);
+		UI.answer.test001 = {
+			id: 'test001',
+			answer: 3,
+			lastAnswer: null,
+			isAnswer: false,
+		}
+		UI.exe.test001 = new DragLine({
+			id: UI.answer.test001.id,
+			answer: UI.answer.test001.answer,
+			lastAnswer: UI.answer.test001.lastAnswer,
+			callback: (v) => {
+				/**
+				 * 개별 이벤트 완료 시 콜백
+				 * answer_last: {{array}} 정답 선택 정보
+				 * answer_state: {{true | false}} 전체 정답
+				 */
+				UI.answer.test001.isAnswer = v.answer_state;
+				UI.answer.test001.lastAnswer = v.answer_last;
+				console.log('callback', UI.answer.test001);
+			},
+		});
+	</script>
+</body>
+
+</html>

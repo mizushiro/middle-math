@@ -1,0 +1,197 @@
+/* range */
+.mdl-range {
+    $rangeWidth:2rem;
+ 
+	width: 100%;
+	height: 3rem;
+	padding: 1.2rem 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	position: relative;
+    -webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+    &:hover {
+        .mdl-range-track {
+            background-color: #e3e3e3;
+        }
+    }
+    &[data-type="single"]  {
+        .mdl-range-bar {right: auto;}
+        .mdl-range-point::before {content: "code" !important;}
+        .mdl-range-track{z-index: 10;}
+
+    }
+    &[data-orient="vertical"] {
+        transform-origin: 5rem 5rem;
+        transform: rotate(-90deg);
+        margin-left: 6rem;
+
+        .mdl-range-point {justify-content: center;}
+        .mdl-range-txt {
+            top: 2.4rem;
+            left: 2rem;
+            transform: rotate(90deg);
+            transform-origin: 0 0;
+        }
+    }
+    
+    &.same {
+        .mdl-range-point {pointer-events:none !important;}
+        .mdl-range-inp.on{z-index: 11;}
+    }
+    &-inp {
+        width: 100%;
+        top: .5rem;
+        left: 0;
+        position: absolute;
+        border: none;
+        z-index: 10;
+        appearance: none;
+        opacity: 0;
+        padding: 0;
+        margin: 0;
+        height: $rangeWidth;
+        cursor: pointer;
+        background-color: transparent;
+        pointer-events: none;
+        -webkit-appearance: none;
+
+        &:focus ~ .mdl-range-track{ background-color: #e3e3e3;}
+        &.on { 
+            pointer-events: all; z-index: 9;
+        }
+        &::-webkit-slider-thumb {
+            pointer-events: all;
+            /* appearance, background-color는 지워도 됨 */
+            appearance: none;
+            background-color: transparent;
+            box-shadow: none;
+            width: $rangeWidth;
+            height: $rangeWidth;
+            margin-top: 0rem;
+            z-index: 13;
+            cursor: pointer;
+            -webkit-appearance: none;
+        }
+        &[data-range="from"]:focus ~ .mdl-range-track .left.mdl-range-point,
+        &[data-range="to"]:focus ~ .mdl-range-track .right.mdl-range-point {
+            box-shadow:0 0 4px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+    }
+    &-track {
+        position: relative;
+        width: 100%;
+        height: 0.6rem;
+        border-radius: 0.3rem;
+        background-color: #BDBDBD;
+        pointer-events: none;
+        z-index: 12;
+        transition: background-color .14s ease-in;
+    }
+    &-bar {
+        position: absolute;
+        pointer-events: none;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 0.5rem;
+        background-color: $gray-100;
+    }
+    &-point {
+        position: absolute;
+        top: 50%;
+        display: flex;
+        justify-content: center;
+        align-self: center;
+        width: $rangeWidth;
+        height: $rangeWidth;
+        border-radius: 50%;
+        background-color:$gray-100;
+        pointer-events:none;
+        z-index: 13;
+        cursor: pointer;
+
+        // &:hover{pointer-events:none;}
+        &.on {
+            z-index: 14;
+            // pointer-events:none;
+            box-shadow:0 0 4px rgba(0,0,0,0.5);
+        }
+        &::before {
+            font-family: 'Material Symbols Outlined';
+            line-height: 2rem;
+            color: #fff;
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+        &.left {
+            left: 0;
+            transform: translate(-1rem, -50%);
+
+            &::before {content: 'arrow_left';}
+        }
+        &.right {
+            right: 0;
+            transform: translate(1rem, -50%);
+
+            &::before {content: 'arrow_right';}
+        }
+    }
+
+    &-txt {
+        position: absolute;
+        top: -1.8rem;
+        text-align: center;
+        font-size: 1.2rem;
+        pointer-events: none;
+    }
+    &-btn {
+        display: flex;
+        justify-content: center;
+        font-size: 1.2rem;
+        width: $rangeWidth;
+        padding:0;
+        position: relative;
+        text-align: center;
+        padding-top:$x1;
+        margin-top:$x1;
+        
+        &:disabled {
+            pointer-events:all !important;
+            // &::before,
+            // span {display: none;}
+        }
+        &::before{
+            content:"";
+            display:block;
+            width:1px;
+            height: $x0_5;
+            background-color: $gray-100;
+            left:50%;
+            position: absolute;
+            transform: translate(-50%,0);
+            top:0;
+        }
+    }
+    &-marks {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        height: 0;
+
+        // &[data-to] {
+        //     display: none;
+        // }
+    }
+}
+.mdl-range-inp.on[data-range="from"] ~ .mdl-range-marks[data-from="true"]{z-index: 1;}
+.mdl-range-inp.on[data-range="to"] ~ .mdl-range-marks[data-to="true"]{z-index: 1;}

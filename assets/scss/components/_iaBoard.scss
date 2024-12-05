@@ -1,0 +1,168 @@
+@charset "utf-8";
+
+.mdl-codinglist {
+    width: 100%;
+    padding:0 1rem;
+
+    &[data-state] tbody tr.srch-hidden,
+    &[data-pub] tbody tr.srch-hidden{display: none !important;}
+    &[data-state] tbody tr,
+    &[data-pub] tbody tr{display: none;}
+    &[data-pub] tbody tr.worker-view{display: table-row;}
+    &[data-state] tbody tr.state-view{display: table-row;}
+    &[data-state][data-pub] tbody tr.state-view,
+    &[data-state][data-pub] tbody tr.worker-view{display: none;}
+    &[data-state][data-pub] tbody tr.worker-view.state-view{display: table-row;}
+    
+    select,
+    input,
+    button {height: 4rem; padding: $x1 $x2; border: .1rem solid var(--gray_90); background-color: $gray-0;}
+    .srch-area{display: flex;}
+    .btn-outlined{margin-left:.4rem;}
+    .srch-hidden { display:none;}
+    .sch_warn {
+        .state span,
+        .state:before{color: #f44336 !important;}
+    }
+    .state {
+        span{
+            display:inline-block;
+            vertical-align: middle;
+            color: var(--gray_90);
+
+            &::before {
+                content:'panorama_fish_eye';
+                font-family: 'Material Symbols Outlined';
+                display:inline-block;
+                vertical-align: middle;
+                margin-right:.3rem;
+                margin-top:-.2rem;
+                font-weight:900;
+                font-size: 1rem;
+                line-height: 1;  
+                color: var(--gray_90);
+            }
+        }
+    }
+
+    [data-state="제외"] {
+        td {background-color: var(--gray_10);}
+        td:not(.d) * {
+            text-decoration-line: line-through; 
+            pointer-events: none; 
+            color: var(--gray_20) !important;
+        }
+
+        .state span{
+            color: var(--gray_80);
+
+            &::before {
+                content:'remove_circle_outline';
+                color: var(--gray_30);
+            }
+        }
+    }
+    [data-state="완료"] {
+        .state span{
+            color: var(--sub);
+
+            &::before {
+                content:'check_circle_outline';
+                color: var(--sub);
+            }
+        }
+    }
+
+    table{table-layout: auto;}
+    thead {
+        th {background-color: var(--gray_20);}
+    }
+    tbody tr{
+        &.on{
+            outline: 0.1rem dashed #3a3a3a;
+            transform: scale(1.002);
+            box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+        }
+        &:hover {outline: 0.1rem solid #3a3a3a;}
+
+        td {
+            line-height: 1.1;
+            vertical-align: top;
+            transition: padding .2s ease-in;
+        }
+    }
+    th, td {
+        border:0.1rem solid var(--gray_20);
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding:$x0_5 ;
+        white-space: nowrap;
+    }
+
+    .d1,.d2,.d3,.d4,.d5,.d6,.d7,.d8 {color: var(--gray_30);}
+    .d2,.d3,.d4,.d5,.d6,.d7,.d8 {white-space:normal;}
+    .c1 .d1,.c2 .d2,.c3 .d3,.c4 .d4,.c5 .d5,.c6 .d6,.c7 .d7,.c8 .d8 { color:var(--gray_90);}
+    .today-mod .date,
+    .today-mod .mod{color: red!important;}
+    .today-mod td.state::after{content: "수정"; display: inline-block; background-color: tomato; color:$gray-0; margin:-2px 0 0 -20px; vertical-align:middle;}
+    .today-mod td{background-color: rgb(253, 234, 234);}
+    .name-tg{display: none;}
+
+    &.name-toggle-view {
+        .btn-base[data-material]::before{
+            content: "first_page";
+        }
+        tr .name-tg{display:table-cell;}
+        tr td.name-tg{ background-color: var(--gray_100);}
+    }
+
+    &-header {
+        position: sticky;
+        z-index: 3;
+        top:0;
+        padding:$x1 0;
+        background-color: $gray-0;
+    }
+    &-state {
+        position: relative;
+        top:0;
+        padding:.8rem 1.6rem;
+        overflow: hidden;
+        border-radius:.4rem;
+        z-index: 3;
+        background: #424242;
+        color: #FAFAFA;
+        font-size: 1.2rem;
+        border: 1px solid #4dcbe3;
+    
+        dt {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #4dcbe3;
+        }
+        .bar{
+            display: block;
+            position: absolute;
+            top:0;
+            left:0;
+            width:0;
+            z-index: 1;
+            height:100%;
+            background-color:#6200ee;
+            box-shadow: 0 0 3rem rgba(74,238,0,0.5);
+            transition: all .3s ease-out;
+        }
+        dl{
+            width:100%;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+        ul{display: flex;}
+        li {
+            flex: 1 auto;
+            margin-left:1.6rem;
+        }
+    }
+}

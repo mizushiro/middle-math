@@ -1,0 +1,21 @@
+{
+    "liveSassCompile.settings.formats": [
+        {
+            "format": "expanded",
+            "extensionName": ".css",
+            "savePath": "~/../css",
+            "savePathReplacementPairs": null
+        }
+    ],
+    "liveSassCompile.settings.includeItems": [
+        "/assets/scss/app.scss"
+    ],
+
+    "liveServer.settings.donotVerifyTags": true,
+    "liveServer.settings.donotShowInfoMsg": true,
+    
+    "editor.wordWrap": "on",
+    "git.autofetch": true,
+    "git.ignoreRebaseWarning": true,
+    "liveServer.settings.port": 5504
+}
