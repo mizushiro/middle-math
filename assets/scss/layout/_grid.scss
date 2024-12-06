@@ -23,8 +23,9 @@ body {
 		display: flex;
 		width: 100%;
 		z-index: 2;
-		padding: 1.2rem 2.4rem;
-		align-items: flex-start;
+		height: 5rem;
+		padding: 0 2.4rem;
+		align-items: center;
 		background-color: aliceblue;
 
 		&-wrap {
@@ -47,30 +48,28 @@ body {
 	&-main {
 		display: flex;
 		flex-direction: column;
-		min-height: calc(100dvh - 6rem);
-		max-height: calc(100dvh - 6rem);
+		min-height: calc(100dvh - 5rem);
+		max-height: calc(100dvh - 5rem);
 		overflow-y: auto;
 		overflow-x: hidden;
 		background-color: bisque;
-	}
+		justify-content: space-between;
 
+	}
 }
 
 .inner-page {
 	display: flex;
+width: 100%;
+	height: 100%;
 	flex-direction: column;
 
 	&--item {
 		width:100%;
 		height: 100%;
 		border: 1px solid red;
-		display: none;
+		display: flex;
 		flex-direction: column;
-
-		&[data-view="true"] {
-			display: flex;
-			
-		}
 	}
 	&--pagination {
 		width: 100%;

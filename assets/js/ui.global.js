@@ -838,29 +838,26 @@ class innerPage {
 	init() {
 		const innerPage = document.querySelector('.inner-page');
 		const innerPageWrap = document.querySelector('.inner-page--wrap');
-
-		this.pages.forEach((v, index) => {
-			const src = v.id + '.html';
+		const item = document.querySelector('.inner-page--item');
+		const curretPageNumber = this.pageView - 1;
+ 		
+		const pageLoad = (v) => {
+			const _this = this.pages[v];
+			const src = _this.id + '.html';
 			fetch(src)
 			.then(response => response.text())
 			.then(result => {
-
-				let pageHtml = `<div class="inner-page--item" data-page="${index + 1}" data-view="${(index + 1 === this.pageView) ? 'true' : 'false'}">
-					${result}
-				</div>`;
-
-				innerPageWrap.insertAdjacentHTML("beforeend", pageHtml);
+				item.innerHTML = result;
 			}).then(() => {
-				const el = document.querySelector(`.inner-page--item[data-page="${index + 1}"]`);
-
-				// !!v.callback && v.callback(el, v);
+				!!_this.callback && _this.callback(item, _this);
 			});
-		});
-
-		const paginationHtml = `<div class="inner-page--pagination" data-page="${this.pageView}">
+		}
+		pageLoad(curretPageNumber);
+ 
+		const paginationHtml = `<div class="inner-page--pagination">
 			<button type="button" data-act="prev">이전</button>
 			<div>
-				<b>${this.pageView}</b> / <span>${this.page_length}<span>
+				<b class="inner-page--pagination-n">${this.pageView}</b> / <span>${this.page_length}<span>
 			</div>
 			<button type="button" data-act="next">다음</button>
 		</div>`;
@@ -870,11 +867,13 @@ class innerPage {
 		const prev = document.querySelector('.inner-page--pagination-prev');
 		const next = document.querySelector('.inner-page--pagination-next');
 		const pagination = document.querySelector('.inner-page--pagination');
+		const paginationNumber = pagination.querySelector('.inner-page--pagination-n');
 		const paginationBtns = pagination.querySelectorAll('button');
 		const paginationBtnPrev = pagination.querySelector('button[data-act="prev"]');
 		const paginationBtnNext = pagination.querySelector('button[data-act="next"]');
+
 		const pageAct = (e) => {
-			const n = Number(pagination.dataset.page);
+			const n = Number(this.pageView);
 			const _this = e.target;
 			const act = _this.dataset.act;
 
@@ -882,26 +881,23 @@ class innerPage {
 			paginationBtnNext.removeAttribute('disabled');
 
 			if (act === 'prev') {
-				pagination.dataset.page = n - 1;
-				const currentPage = document.querySelector(`.inner-page--item[data-page="${n - 1}"]`);
-				const viewPage = document.querySelector(`.inner-page--item[data-view="true"]`);
-				viewPage.dataset.view = false;
-				currentPage.dataset.view = true;
+				this.pageView = n - 1;
+				if (this.pageView <= 1) this.pageView = 1;
+
+
+				pageLoad(this.pageView - 1);
 			} else {
-				console.log(n, this.page_length);
-				pagination.dataset.page = n + 1;
-				const currentPage = document.querySelector(`.inner-page--item[data-page="${n + 1}"]`);
-				const viewPage = document.querySelector(`.inner-page--item[data-view="true"]`);
-				viewPage.dataset.view = false;
-				currentPage.dataset.view = true;
+				this.pageView = n + 1;
+				if (this.pageView >= this.page_length) this.pageView = this.page_length;
+				pageLoad(this.pageView - 1);
 			}
+
+			paginationNumber.textContent = this.pageView;
 		};
 		
 		paginationBtns.forEach((item) => {
 			item.addEventListener('click', pageAct)
 		});
-
-		
 	}
 }
 
