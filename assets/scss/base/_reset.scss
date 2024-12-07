@@ -1,22 +1,31 @@
 @charset "utf-8";
 
-html {font-size: 0.9766vw;} //1920
-html,body {padding: 0;}
+html {
+	font-size: 0.5208vw;
+}
+
+//1920
+html,
+body {
+	padding: 0;
+}
 
 /* See https://hankchizljaw.com/wrote/a-modern-css-reset/ */
 /* Box sizing rules */
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-    color: inherit;
-    font: inherit;
-    hyphens : auto
+	box-sizing: border-box;
+	color: inherit;
+	font: inherit;
+	hyphens: auto
 }
 
 /* Remove default padding */
 ul[class],
-ol[class] {padding: 0;}
+ol[class] {
+	padding: 0;
+}
 
 /* Remove default margin */
 body,
@@ -35,7 +44,7 @@ figcaption,
 blockquote,
 dl,
 dd {
-    margin: 0;
+	margin: 0;
 }
 
 /* html5 */
@@ -59,127 +68,142 @@ summary {
 
 /* Set core body defaults */
 body {
-    background-color: $gray-0;
-    font-family: 'Base', sans-serif;
-    color: $gray-100;
-    font-size: 1.6rem;
-    word-break: keep-all;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: none;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-overflow-scrolling: touch;
-    -webkit-user-select: none;
+	background-color: $gray-0;
+	font-family: 'Base', sans-serif;
+	color: $gray-100;
+	font-size: 1.6rem;
+	word-break: keep-all;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust: none;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-overflow-scrolling: touch;
+	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-tap-highlight-color: transparent;
-    min-height: 100vh;
-    scroll-behavior: smooth;
-    text-rendering: optimizeSpeed;
-    line-height: 1.5;
-    word-break: keep-all;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-tap-highlight-color: transparent;
+	min-height: 100vh;
+	scroll-behavior: smooth;
+	text-rendering: optimizeSpeed;
+	line-height: 1.5;
+	word-break: keep-all;
 }
 
 /* Remove list styles on ul, ol elements with a class attribute */
 ul,
 ol,
-li{padding: 0; margin: 0; list-style: none;}
+li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
 
 /* A elements that don't have a class get default styles */
-a:not([class]) {text-decoration-skip-ink: auto;}
+a:not([class]) {
+	text-decoration-skip-ink: auto;
+}
 
 /* Make images easier to work with */
 img {
-    max-width: 100%;
-    display: block;
+	max-width: 100%;
+	display: block;
 }
 
 /* Inherit fonts for inputs */
 input,
 textarea,
-select {font: inherit;}
+select {
+	font: inherit;
+}
 
 select[class],
 textarea[class],
 input[class] {
 	appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -webkit-border-radius: 0;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
 }
 
 [type="search"]::-webkit-search-cancel-button,
 [type="search"]::-webkit-search-decoration {
-    -webkit-appearance: none;
-    appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
 }
 
-select[class]::-ms-expand {display: none;}
+select[class]::-ms-expand {
+	display: none;
+}
 
 /* Inherit fonts for buttons */
 button {
 	padding: 0;
 	border: 0;
-    font: inherit;
-    cursor: pointer;
-    background: transparent;
+	font: inherit;
+	cursor: pointer;
+	background: transparent;
 }
 
 /* label */
-label {cursor: pointer;}
+label {
+	cursor: pointer;
+}
 
 /* table */
 table {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-spacing: 0;
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 caption {
-    position: relative !important;
-    width: .1rem !important;
-    height: .1rem !important;
-    color: transparent !important;
-    overflow: hidden !important;
-    clip: rect(.1rem, .1rem, .1rem, .1rem);
-    clip-path: inset(50%);
-    margin: -.1rem 0 0;
+	position: relative !important;
+	width: .1rem !important;
+	height: .1rem !important;
+	color: transparent !important;
+	overflow: hidden !important;
+	clip: rect(.1rem, .1rem, .1rem, .1rem);
+	clip-path: inset(50%);
+	margin: -.1rem 0 0;
 }
 
 th,
-td {border-collapse: collapse;}
+td {
+	border-collapse: collapse;
+}
 
 .a11y-hidden,
 legend,
 .hidden,
 .hide {
-    position: absolute !important;
-    width: .1rem !important;
-    height: .1rem !important;
-    color: transparent !important;
-    overflow: hidden !important;
-    clip: rect(.1rem, .1rem, .1rem, .1rem);
-    clip-path: inset(50%);
-    margin: 0 !important;
-    padding: 0 !important;
+	position: absolute !important;
+	width: .1rem !important;
+	height: .1rem !important;
+	color: transparent !important;
+	overflow: hidden !important;
+	clip: rect(.1rem, .1rem, .1rem, .1rem);
+	clip-path: inset(50%);
+	margin: 0 !important;
+	padding: 0 !important;
 }
 
 .ellp {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-break: normal;
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break: normal;
 }
 
 *.disabled,
 *:disabled {
-    pointer-events: none !important;
-    cursor: default !important;
-    opacity: 0.2 !important;
-    box-shadow: none !important;
+	pointer-events: none !important;
+	cursor: default !important;
+	opacity: 0.2 !important;
+	box-shadow: none !important;
 }
+

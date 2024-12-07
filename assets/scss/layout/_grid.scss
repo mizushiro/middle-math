@@ -1,6 +1,11 @@
 @charset "utf-8";
 $nav_width: 20rem;
 
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
 html {
 	overflow: hidden;
 }
@@ -51,36 +56,6 @@ body {
 		min-height: calc(100dvh - 5rem);
 		overflow-y: auto;
 		overflow-x: hidden;
-		background-color: bisque;
 		justify-content: space-between;
-
-	}
-}
-
-.inner-page {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	
-	flex-direction: column;
-
-	&--item {
-		width:100%;
-		height: 100%;
-		min-height: calc(100dvh - 10rem);
-		border: 1px solid red;
-		display: flex;
-		flex-direction: column;
-	}
-	&--pagination {
-		width: 100%;
-		height: 5rem;
-		position: relative;
-		background-color: #f1f1f1;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 1.2rem;
-		gap: 0.8rem;
 	}
 }

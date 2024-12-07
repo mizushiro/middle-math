@@ -828,8 +828,8 @@
 
 class innerPage {
 	constructor(opt) {
-		console.log(opt);
 		this.pages = opt.pages;
+		this.playTime = this.pages.time
 		this.name = opt.name;
 		this.page_length = this.pages.length;
 		this.pageView = opt.viewpage;
@@ -840,6 +840,7 @@ class innerPage {
 		const innerPageWrap = document.querySelector('.inner-page--wrap');
 		const item = document.querySelector('.inner-page--item');
 		const curretPageNumber = this.pageView - 1;
+		
  		
 		const pageLoad = (v) => {
 			const _this = this.pages[v];
@@ -849,7 +850,9 @@ class innerPage {
 			.then(result => {
 				item.innerHTML = result;
 			}).then(() => {
-				!!_this.callback && _this.callback(item, _this);
+				_this.time.start = new Date();
+				_this.time.end = null;
+				_this.callback(item, _this);
 			});
 		}
 		pageLoad(curretPageNumber);
@@ -871,6 +874,8 @@ class innerPage {
 		const paginationBtns = pagination.querySelectorAll('button');
 		const paginationBtnPrev = pagination.querySelector('button[data-act="prev"]');
 		const paginationBtnNext = pagination.querySelector('button[data-act="next"]');
+		
+		pagination.dataset.current = this.pageView;
 
 		const pageAct = (e) => {
 			const n = Number(this.pageView);
@@ -879,19 +884,18 @@ class innerPage {
 
 			paginationBtnPrev.removeAttribute('disabled');
 			paginationBtnNext.removeAttribute('disabled');
+			this.pages[Number(pagination.dataset.current) - 1].time.end = new Date();
 
 			if (act === 'prev') {
 				this.pageView = n - 1;
 				if (this.pageView <= 1) this.pageView = 1;
-
-
 				pageLoad(this.pageView - 1);
 			} else {
 				this.pageView = n + 1;
 				if (this.pageView >= this.page_length) this.pageView = this.page_length;
 				pageLoad(this.pageView - 1);
 			}
-
+			pagination.dataset.current = this.pageView;
 			paginationNumber.textContent = this.pageView;
 		};
 		
@@ -901,6 +905,52 @@ class innerPage {
 	}
 }
 
+//객관식 
+class MultipleChoice {
+	constructor(opt) {
+		this.id = opt.id;
+		this.wrap = document.querySelector(`[data-choice-id="${this.id}"]`);
+		this.items = this.wrap.querySelectorAll(`.multiple-choice--item`);
+		
+		this.answer_len = Number(opt.answerSum);
+		this.answer_last = opt.lastAnswer;
+		this.callback = opt.callback;
+		this.callbackComplete = opt.callbackComplete;
+		this.callbackCheck = opt.callbackCheck;
+
+		this.type = this.wrap.dataset.type;
+		this.init();
+
+		console.log(this.wrap);
+	}
+	init() {
+		const act = (e) => {
+			const _this = e.currentTarget;
+
+			_this.dataset.selected = _this.dataset.selected === 'true' ? 'false' : 'true';
+			console.log(_this);
+		}
+		this.items.forEach((item) => {
+			item.addEventListener('click', act);
+		});
+	}
+	reset = v => {
+		const isDeep = v;
+		for (let item of this.items) {
+			item.removeAttribute('data-selected');
+		}
+		
+		if (isDeep) this.answer_last = [];
+
+		console.log('isDeep', isDeep, this.answer_last);
+	}
+	check = () => {
+
+	}
+	complete = () => {
+
+	}
+}
 // 선잇기 
 class DragLine {
 	/**
@@ -2172,7 +2222,7 @@ class DragLine {
 		}
 		this.answer_n = this.answer_len;
 		this.wrap.dataset.state = 'complete';
-		this.completeCallback();
+		// this.completeCallback();
 	};
 
 	//마지막 답선택 그리기

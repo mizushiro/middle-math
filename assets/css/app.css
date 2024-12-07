@@ -42,10 +42,11 @@
 }
 
 html {
-  font-size: 0.9766vw;
+  font-size: 0.5208vw;
 }
 
-html, body {
+html,
+body {
   padding: 0;
 }
 
@@ -449,8 +450,8 @@ guide-box::before {
 /* Remove all animations and transitions for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
   /* We are relaxing the `declaration-no-important` here
-   because we want to ensure that code further down the
-   cascade will adhere to this accessibility enhancement */
+      because we want to ensure that code further down the
+      cascade will adhere to this accessibility enhancement */
   /* stylelint-disable declaration-no-important */
   * {
     animation-duration: 0.01ms !important;
@@ -8204,6 +8205,410 @@ overflow:auto;
 @media (prefers-color-scheme: dark) {
   /* dark mode */
 }
+@font-face {
+  font-family: "Math";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-ExtraLight.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-ExtraLightitalic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Lightitalic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Thin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Thinitalic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Mediumitalic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-SemiBolditalic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Bolditalic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-ExtraBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Math";
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-ExtraBolditalic.woff2") format("woff2");
+}
+[data-h="1"] {
+  font-size: 8rem;
+  font-weight: 100;
+  text-transform: capitalize;
+  line-height: 1.5;
+  margin-bottom: 3.2rem;
+}
+
+[data-h="2"] {
+  font-size: 3.2rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 1.6rem;
+}
+
+[data-h="3"] {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 1.6rem;
+}
+
+[data-h="4"] {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 1.6rem;
+}
+
+p + p {
+  margin-top: 1.6rem;
+}
+
+/* FORM */
+/* Removes the clear button from date inputs */
+input[type=date]::-webkit-clear-button,
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input[type=date] {
+  -moz-appearance: none;
+       appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type=radio],
+input[type=checkbox] {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  display: inline-block;
+  position: absolute;
+  z-index: -1;
+  vertical-align: top;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mdl-selection {
+  position: relative;
+  display: inline-flex;
+  vertical-align: top;
+  align-items: center;
+  min-height: 4rem;
+  font-size: 1.4rem;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  line-height: 1;
+}
+.mdl-selection span {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+  border-bottom: 1px solid transparent;
+}
+.mdl-selection::before {
+  content: "";
+  display: block;
+  flex: 0;
+  min-width: 2rem;
+  min-height: 2rem;
+  margin-right: 0.5rem;
+  border: 0.2rem solid var(--gray_90);
+  transition: box-shadow 0.5s, border 0.3s;
+}
+.mdl-selection:hover::before {
+  box-shadow: 0 0 0.7rem rgba(0, 0, 0, 0.3);
+}
+.mdl-selection:focus::before {
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.7);
+}
+.mdl-selection[data-type=radio]::before {
+  border-radius: 50%;
+}
+.mdl-selection[data-type=checkbox]::before {
+  border-radius: 0.3rem;
+}
+.mdl-selection[data-type=switch] {
+  position: relative;
+  padding-left: 4.4rem;
+  font-size: 1.4rem;
+  align-items: center;
+}
+.mdl-selection[data-type=switch]::before {
+  content: "";
+  display: block;
+  min-width: 4rem;
+  height: 1rem;
+  border-radius: 1rem;
+  background-color: #BDBDBD;
+  border: 0;
+  position: relative;
+  top: 0;
+  transform: translate(0, 0);
+  transition: all 0.2s ease-in;
+}
+.mdl-selection[data-type=switch]::after {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2rem;
+  background-color: var(--gray_0);
+  box-shadow: 0.1rem 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  transition: all 0.2s ease-in;
+  opacity: 1;
+}
+
+input:checked + .mdl-selection::before {
+  border: 0.6rem solid var(--gray_90);
+  color: var(--gray_90);
+}
+
+input:disabled + .mdl-selection {
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+  cursor: not-allowed;
+}
+
+input:checked + .mdl-selection[data-type=switch]::before {
+  background-color: var(--gray_100);
+  opacity: 0.5;
+}
+
+input:checked + .mdl-selection[data-type=switch]::after {
+  box-shadow: -0.1rem 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
+  transform: translate(2rem, -50%);
+  background-color: var(--gray_100);
+}
+
+input:disabled + .mdl-selection[data-type=switch] {
+  opacity: 0.3;
+}
+
+/* input text */
+select,
+.mdl-select-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  border: 1px solid var(--gray_30);
+  background-color: var(--gray_0);
+  border-radius: 0.8rem;
+  height: 4rem;
+  padding: 0 1rem;
+  outline: 0;
+  margin: 0;
+  color: var(--gray_90);
+  font-size: 1.6rem;
+  z-index: 1;
+}
+select:focus, select:hover,
+.mdl-select-btn:focus,
+.mdl-select-btn:hover {
+  border: 0.1rem solid var(--gray_100);
+}
+select[aria-expanded=true]::after,
+.mdl-select-btn[aria-expanded=true]::after {
+  content: "expand_less";
+}
+select::after,
+.mdl-select-btn::after {
+  content: "expand_more";
+  font-family: "Material Symbols Outlined";
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: block;
+  color: var(--gray_90);
+}
+
+.mdl-select {
+  position: relative;
+}
+.mdl-select select {
+  position: relative;
+  width: auto;
+  z-index: 0;
+}
+.mdl-select select:focus + .mdl-select-btn {
+  border: 0.1rem solid var(--gray_100);
+}
+.mdl-select-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.inp-base:focus {
+  border-color: var(--gray_90);
+}
+
+.inp-base::-webkit-search-cancel-button {
+  display: none;
+}
+
+textarea.inp-base {
+  padding: 1rem;
+  height: 10rem;
+}
+
+select[class] {
+  position: relative;
+  cursor: pointer;
+}
+
+select.inp-base {
+  padding: 0 1rem;
+}
+
+.btn-clear {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2.4rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-clear::after {
+  content: "clear";
+  position: relative;
+  font-family: "Material Icons";
+  font-feature-settings: "liga";
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 20px;
+  color: #000;
+  line-height: 1;
+}
+
+.prefix {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  padding: 0 0.8rem;
+  z-index: 1;
+  transform: translate(0, -50%);
+}
+
+.suffix {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  padding: 0 0.8rem;
+  z-index: 1;
+  transform: translate(0, -50%);
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
 html {
   overflow: hidden;
 }
@@ -8249,34 +8654,7 @@ body {
   min-height: calc(100dvh - 5rem);
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: bisque;
   justify-content: space-between;
-}
-
-.inner-page {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-}
-.inner-page--item {
-  width: 100%;
-  height: 100%;
-  min-height: calc(100dvh - 10rem);
-  border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-}
-.inner-page--pagination {
-  width: 100%;
-  height: 5rem;
-  position: relative;
-  background-color: #f1f1f1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1.2rem;
-  gap: 0.8rem;
 }
 
 .mdl-layer {
@@ -9227,6 +9605,114 @@ body {
   position: static !important;
 }
 
+/* mdl-acco */
+.mdl-acco {
+  width: 100%;
+  position: relative;
+  margin: 0;
+}
+.mdl-acco::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.1rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-bottom: 0.1rem solid var(--gray_40);
+}
+.mdl-acco-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin: -0.1rem 0 0;
+  padding: 0 4rem 0 0;
+  min-height: 4.8rem;
+  border-top: 0.1rem solid var(--gray_40);
+  border-bottom: 0.1rem solid var(--gray_40);
+  background: var(--gray_0);
+}
+.mdl-acco-head:hover {
+  background-color: var(--gray_10);
+}
+.mdl-acco-head-wrap {
+  display: flex;
+  gap: 0.8rem;
+  width: auto;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+}
+.mdl-acco .mdl-form, .mdl-acco-link {
+  position: relative;
+  z-index: 2;
+}
+.mdl-acco-btn {
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  letter-spacing: 0;
+  text-align: left;
+  color: var(--gray_70);
+  font-size: 1.4rem;
+}
+.mdl-acco-btn[aria-expanded=true]::after {
+  content: "keyboard_arrow_up";
+}
+.mdl-acco-btn::after {
+  content: "keyboard_arrow_down";
+  font-family: "Material Symbols Outlined";
+  display: block;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  margin-top: -1rem;
+  width: 1.8rem;
+  height: 2rem;
+  float: right;
+  overflow: hidden;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--gray_70);
+}
+.mdl-acco a.mdl-acco-btn {
+  display: inline-block;
+  text-decoration: none;
+  text-decoration: underline;
+  color: #6296df;
+}
+.mdl-acco a.mdl-acco-btn::after {
+  content: "keyboard_arrow_right";
+}
+.mdl-acco a.mdl-acco-btn .mdl-acco-arrow {
+  transform: rotate(-90deg);
+}
+.mdl-acco-body {
+  position: relative;
+  visibility: visible;
+  transition: height 0.3s ease-in-out;
+  height: 0;
+  overflow: hidden;
+  background: var(--gray_0);
+}
+.mdl-acco-body.off[aria-hidden=false] .mdl-acco-pnl-wrap {
+  display: block;
+}
+.mdl-acco-body.off .mdl-acco-pnl-wrap {
+  display: none;
+}
+.mdl-acco-body .mdl-acco-wrap {
+  position: relative;
+  width: 100%;
+  padding: 2.4rem;
+}
+
 .mdl-button {
   position: relative;
   display: flex;
@@ -9286,4 +9772,452 @@ body {
 .mdl-button:focus {
   text-decoration: underline;
   text-underline-offset: 0.3rem;
+}
+
+/* ui file */
+.mdl-file {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.8rem;
+}
+.mdl-file input:active + .mdl-button,
+.mdl-file input:hover + .mdl-button,
+.mdl-file input:focus + .mdl-button {
+  border: 1px solid #616161;
+  background: #FAFAFA;
+}
+.mdl-file-inp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  direction: ltr;
+  cursor: pointer;
+  z-index: 1;
+}
+.mdl-file-list {
+  position: relative;
+  min-height: 4rem;
+  margin-top: 0;
+  display: none;
+}
+.mdl-file-list.on {
+  display: block;
+}
+.mdl-file-list ul {
+  padding: 0;
+  margin: 0;
+}
+.mdl-file-list li {
+  position: relative;
+  padding: 0.8rem 3.2rem 0 0;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  border-bottom: 1px solid #EEEEEE;
+}
+.mdl-file-list img {
+  height: 3rem;
+  margin-right: 0.5rem;
+}
+.mdl-file-list .mdl-file-del {
+  position: absolute;
+  right: 0.5rem;
+  top: 1rem;
+  line-height: 1;
+}
+.mdl-file-list .mdl-file-del::after {
+  content: "clear";
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  font-family: "Material Symbols Outlined";
+  font-feature-settings: "liga";
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+/* mdl-loading */
+.mdl-loading {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  /* style - clock */
+  /* style - orbit */
+}
+.mdl-loading.type-area {
+  position: absolute;
+}
+.mdl-loading.type-area::after {
+  position: absolute !important;
+}
+.mdl-loading.visible {
+  display: block;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+.mdl-loading .mdl-loading-message {
+  font-size: 14px;
+  color: #fff;
+  width: 120px;
+  position: absolute;
+  left: 50%;
+  bottom: -30px;
+  margin-left: -60px;
+  text-align: center;
+}
+.mdl-loading .mdl-loading-message span {
+  display: block;
+  padding: 2px;
+}
+.mdl-loading.clock::after {
+  content: "";
+  display: block;
+  position: fixed;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+.mdl-loading.clock.close::after {
+  animation-name: fadeOut;
+  animation-duration: 0.25s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.mdl-loading.clock .mdl-loading-wrap {
+  position: absolute;
+  z-index: 1;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+  margin: -40px 0 0 -40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+.mdl-loading.clock .mdl-loading-wrap::after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 40px;
+  margin-left: -20px;
+  border-radius: 1px;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgb(255, 255, 255) 100%);
+  animation-name: clockAni;
+  animation-duration: 12s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.mdl-loading.clock .mdl-loading-wrap::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 40px;
+  margin-left: -30px;
+  border-radius: 1px;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgb(255, 255, 255) 100%);
+  animation-name: clockAni;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.mdl-loading.orbit::after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 0;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation-name: orbitScaleShowAni;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+.mdl-loading.orbit.close:after {
+  animation-name: orbitScaleHideAni;
+  animation-duration: 0.25s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.mdl-loading.orbit .mdl-loading-wrap {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+  margin: -40px 0 0 -40px;
+  z-index: 1;
+}
+.mdl-loading.orbit .mdl-loading-wrap::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: calc(50% - 10px);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background: #F5F5F5;
+  animation-name: orbitLeftAni;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: reverse;
+}
+.mdl-loading.orbit .mdl-loading-wrap::before {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 0;
+  top: calc(50% - 10px);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background: #212121;
+  animation-name: orbitRightAni;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: reverse;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes clockAni {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orbitLeftAni {
+  0% {
+    left: 0;
+    z-index: 2;
+    opacity: 1;
+  }
+  50% {
+    left: calc(100% - 20px);
+    z-index: 2;
+    opacity: 1;
+  }
+  51% {
+    left: calc(100% - 20px);
+    z-index: 1;
+    opacity: 1;
+  }
+  100% {
+    left: 0;
+    z-index: 1;
+    opacity: 1;
+  }
+}
+@keyframes orbitRightAni {
+  0% {
+    left: calc(100% - 20px);
+    z-index: 1;
+    opacity: 1;
+  }
+  50% {
+    left: 0;
+    z-index: 1;
+    opacity: 1;
+  }
+  51% {
+    left: 0;
+    z-index: 2;
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 20px);
+    z-index: 2;
+    opacity: 1;
+  }
+}
+@keyframes orbitScaleShowAni {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 150vmax;
+    height: 150vmax;
+  }
+}
+@keyframes orbitScaleHideAni {
+  0% {
+    width: 150vmax;
+    height: 150vmax;
+  }
+  100% {
+    width: 0;
+    height: 0;
+  }
+}
+.mdl-tab {
+  position: relative;
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+}
+.mdl-tab-wrap {
+  display: flex;
+  gap: 0.8rem;
+}
+.mdl-tab-btn {
+  border: 0.1rem solid #555;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.8rem;
+  white-space: nowrap;
+}
+.mdl-tab-btn[data-selected=true] {
+  background-color: var(--gray_100);
+  color: var(--gray_0);
+}
+.mdl-tab-item {
+  display: none;
+}
+.mdl-tab-item[data-selected=true] {
+  display: block;
+}
+
+math {
+  font-family: "Math", sans-serif;
+  font-weight: 400;
+}
+
+.inner-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+.inner-page--wrap {
+  width: 100%;
+  height: 100%;
+  min-height: calc(100dvh - 10rem);
+  max-height: calc(100dvh - 10rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.inner-page--item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2.4rem;
+}
+.inner-page--pagination {
+  width: 100%;
+  height: 5rem;
+  position: relative;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem;
+  gap: 0.8rem;
+}
+
+.multiple-choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3.4rem;
+}
+.multiple-choice--item {
+  position: relative;
+  display: flex;
+  gap: 1.6rem;
+  cursor: pointer;
+}
+.multiple-choice--item[data-selected=true] {
+  outline: 0.1rem solid red;
+}
+.multiple-choice--cont {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+.multiple-choice math {
+  font-size: 3rem;
+}
+.multiple-choice math mrow {
+  padding: 0.2rem 0;
+}
+.multiple-choice math msup mn {
+  font-size: 0.5em;
+}
+
+.num-round {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 3rem;
+  min-width: 3rem;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.8rem;
+  border-radius: 50%;
+  border: 0.1rem solid #000;
 }/*# sourceMappingURL=app.css.map */

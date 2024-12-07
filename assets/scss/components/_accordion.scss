@@ -1,117 +1,131 @@
 /* mdl-acco */
 .mdl-acco {
-    width: 100%;
-    position: relative;
-    margin: 0;
+	width: 100%;
+	position: relative;
+	margin: 0;
 
-    &::after{
-        content: "";
-        display: block;
-        width: 100%;
-        height: 0.1rem;
-        position: absolute;
-        bottom:0;
-        left:0;
-        border-bottom: 0.1rem solid $gray-40;
-    }
-    
-    &-head { 
-        position: relative;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        margin: -0.1rem 0 0;
-        padding: 0 $x5 0 0;
-        min-height: $x6;
-        border-top: 0.1rem solid $gray-40;
-        border-bottom: 0.1rem solid $gray-40;
-        background: $gray-0;
+	&::after {
+		content: "";
+		display: block;
+		width: 100%;
+		height: 0.1rem;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		border-bottom: 0.1rem solid $gray-40;
+	}
 
-        &:hover{
-            background-color: $gray-10;
-        }
+	&-head {
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		margin: -0.1rem 0 0;
+		padding: 0 $x5 0 0;
+		min-height: $x6;
+		border-top: 0.1rem solid $gray-40;
+		border-bottom: 0.1rem solid $gray-40;
+		background: $gray-0;
 
-        &-wrap {
-            display: flex;
-            gap: $x1;
-            width: auto;
-            align-items: center;
-            padding: $x1 $x1_5;
-        }
-    }
-    
+		&:hover {
+			background-color: $gray-10;
+		}
 
-    .mdl-form,
-    &-link {
-        position: relative;
-        z-index: 2;
-    }
-    &-btn {
-        cursor: pointer;
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        letter-spacing: 0;
-        text-align: left;
-        color: $gray-70;
-        font-size: 1.4rem;
-        
-        &[aria-expanded="true"]::after {content: "keyboard_arrow_up";}
-        &::after {
-            content: "keyboard_arrow_down";
-            font-family: 'Material Symbols Outlined';
-            display: block;
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            margin-top: -1rem;
-            width: 1.8rem;
-            height: 2rem;
-            float: right;
-            overflow: hidden;
-            font-size: 2rem;
-            line-height: 1;
-            color: $gray-70;
-        }
-    }
-    a.mdl-acco-btn {
-        display: inline-block;
-        text-decoration: none;
-        text-decoration: underline;
-        color: #6296df;
-    
-        &::after {content: "keyboard_arrow_right";}
+		&-wrap {
+			display: flex;
+			gap: $x1;
+			width: auto;
+			align-items: center;
+			padding: $x1 $x1_5;
+		}
+	}
 
-        .mdl-acco-arrow {transform: rotate(-90deg);}
-    }
 
-    // &-item {
-    //     &[data-expanded="true"] > .mdl-acco-body {
-    //         height:fit-content;
-    //     }
-    // }
-    &-body {
-        position: relative;
-        visibility: visible;
-        transition: height .3s ease-in-out;
-        height:0;
-        overflow: hidden;
-        background: $gray-0;   
+	.mdl-form,
+	&-link {
+		position: relative;
+		z-index: 2;
+	}
 
-        &.off[aria-hidden="false"] .mdl-acco-pnl-wrap{display: block;}
-        &.off .mdl-acco-pnl-wrap{display: none;}
+	&-btn {
+		cursor: pointer;
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		letter-spacing: 0;
+		text-align: left;
+		color: $gray-70;
+		font-size: 1.4rem;
 
-        .mdl-acco-wrap {
-            position: relative;
-            width: 100%;
-            padding: $x3;
-        }
-    
-    }
-    
+		&[aria-expanded="true"]::after {
+			content: "keyboard_arrow_up";
+		}
+
+		&::after {
+			content: "keyboard_arrow_down";
+			font-family: 'Material Symbols Outlined';
+			display: block;
+			position: absolute;
+			right: 1rem;
+			top: 50%;
+			margin-top: -1rem;
+			width: 1.8rem;
+			height: 2rem;
+			float: right;
+			overflow: hidden;
+			font-size: 2rem;
+			line-height: 1;
+			color: $gray-70;
+		}
+	}
+
+	a.mdl-acco-btn {
+		display: inline-block;
+		text-decoration: none;
+		text-decoration: underline;
+		color: #6296df;
+
+		&::after {
+			content: "keyboard_arrow_right";
+		}
+
+		.mdl-acco-arrow {
+			transform: rotate(-90deg);
+		}
+	}
+
+	// &-item {
+	//     &[data-expanded="true"] > .mdl-acco-body {
+	//         height:fit-content;
+	//     }
+	// }
+	&-body {
+		position: relative;
+		visibility: visible;
+		transition: height .3s ease-in-out;
+		height: 0;
+		overflow: hidden;
+		background: $gray-0;
+
+		&.off[aria-hidden="false"] .mdl-acco-pnl-wrap {
+			display: block;
+		}
+
+		&.off .mdl-acco-pnl-wrap {
+			display: none;
+		}
+
+		.mdl-acco-wrap {
+			position: relative;
+			width: 100%;
+			padding: $x3;
+		}
+
+	}
+
 }

@@ -1,31 +1,31 @@
 .mdl-tab {
-    position: relative;
-    width: 100%;
-    display: flex;
-    overflow-x: auto;
+	position: relative;
+	width: 100%;
+	display: flex;
+	overflow-x: auto;
 
-    &-wrap {
-        display: flex;
-        gap: $x1;
-    }
+	&-wrap {
+		display: flex;
+		gap: $x1;
+	}
 
-    &-btn {
-        border: .1rem solid #555;
-        padding: $x1 $x2;
-        border-radius: $x1;
-        white-space: nowrap;
+	&-btn {
+		border: .1rem solid #555;
+		padding: $x1 $x2;
+		border-radius: $x1;
+		white-space: nowrap;
 
-        &[data-selected="true"] {
-            background-color: $gray-100;
-            color:$gray-0;
-        }
-    }
+		&[data-selected="true"] {
+			background-color: $gray-100;
+			color: $gray-0;
+		}
+	}
 
-    &-item {
-        display: none;
+	&-item {
+		display: none;
 
-        &[data-selected="true"] {
-            display: block;
-        }
-    }
+		&[data-selected="true"] {
+			display: block;
+		}
+	}
 }

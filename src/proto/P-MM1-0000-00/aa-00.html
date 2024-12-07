@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="../../../assets/libs/video-js.css">
 	<link rel="stylesheet" href="../../../assets/css/app.css">
@@ -34,48 +35,52 @@
 	<script>
 		UI.json = {
 			name: '김미래',
-			viewpage: 2,
+			viewpage: 1,
 			pages: [
 				{
-					id: 'aa-00-01',
-					time: 0, //풀이시간
+					id: 'aa-00-01', //불러올 페이지 이름
+					time: {
+						start: null,
+						end: null,
+					}, //풀이시간
 					sum: 1, //풀이횟수
-					answer: null,
+					answer: {
+						"answerSum": 1, //전체 답 갯수
+						"lastAnswer": null, //내가 선택한 답
+						"isAnswer": false, //정답 여부
+					},
 					callback: (el, data) => {
-						console.log('문제1 콜백',el);
-						el.querySelector('.aa').textContent = 'aaaaaaaaa';
+						console.log('문제1 콜백',UI.json, data);
+
+						UI.exe.aa0001 = new MultipleChoice({
+							id: data.id,
+							answerSum: data.answer.answerSum,
+							lastAnswer: data.answer.lastAnswer,
+							callback: (v) => {
+								UI.json.pages[0].answer.isAnswer = v.answer_state;
+								UI.json.pages[0].answer.lastAnswer = v.answer_last;
+								console.log('callback', UI.json.pages[0].answer);
+							},
+						});
 					}
 				},
 				{
 					id: 'aa-00-02',
-					time: 30034, //풀이시간
+					time: {
+						start: null,
+						end: null,
+					}, //풀이시간
 					sum: 2, //풀이횟수
 					answer: {
 						"answerSum": 3,
-						"lastAnswer": [
-							{
-								"key0": "1",
-								"key4": "2",
-								"label": "응용 소프트웨어1, 문제 키워드2 연결됨"
-							},
-							{
-								"key1": "2",
-								"key5": "3",
-								"label": "응용 소프트웨어2, 문제 키워드3 연결됨"
-							},
-							{
-								"key2": "3",
-								"key3": "1",
-								"label": "응용 소프트웨어3, 문제 키워드1 연결됨"
-							},
-						],
+						"lastAnswer": null,
 						"isAnswer": false,
 					},
 					callback: (el, data) => {
-						console.log('문제2 콜백', data);
+						console.log('문제2 콜백', UI.json, data);
 
-
-						UI.exe.test001 = new DragLine({
+						//선잇기
+						UI.exe.aa0002 = new DragLine({
 							id: data.id,
 							answerSum: data.answer.answerSum,
 							lastAnswer: data.answer.lastAnswer,
