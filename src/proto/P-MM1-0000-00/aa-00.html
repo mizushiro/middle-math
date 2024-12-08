@@ -33,79 +33,90 @@
 	<script src="../../../assets/js/ui.global.js"></script>
 	<script src="../../../assets/libs/video.js"></script>
 	<script>
-		UI.json = {
-			name: '김미래',
-			viewpage: 1,
+		UI.student = {
+			sID: 'm1_01_01',
+			sName: '김미래',
+
+			pageView: 1,
 			pages: [
 				{
-					id: 'aa-00-01', //불러올 페이지 이름
-					time: {
+					page: 'aa-00-01', //불러올 페이지 이름
+					time: { //풀이시간
 						start: null,
 						end: null,
-					}, //풀이시간
-					sum: 1, //풀이횟수
-					answer: {
-						"answerSum": 1, //전체 답 갯수
-						"lastAnswer": null, //내가 선택한 답
-						"isAnswer": false, //정답 여부
 					},
-					callback: (el, data) => {
-						console.log('문제1 콜백',UI.json, data);
+					count: 0, //풀이횟수
 
-						UI.exe.aa0001 = new MultipleChoice({
-							id: data.id,
-							answerSum: data.answer.answerSum,
-							lastAnswer: data.answer.lastAnswer,
-							callback: (v) => {
-								UI.json.pages[0].answer.isAnswer = v.answer_state;
-								UI.json.pages[0].answer.lastAnswer = v.answer_last;
-								console.log('callback', UI.json.pages[0].answer);
+					questions: [
+						{
+							id: 'aa-00-01-01', //문제 아이디
+							answer: {
+								correctAnswer: [2, 3], //정답
+								selectedAnswer: [3], //내가 선택한 답 
+								isCorrect: null, //정답 여부 [null | false | true]
 							},
-						});
-					}
+							callback: (el, data) => {
+								console.log('문제1-1 콜백', data);
+								//문제컴포넌트 실행------
+								UI.exe.aa000101 = new MultipleChoice({
+									id: data.id,
+									answer: data.answer,
+									callback: (v) => {
+										// UI.student.pages[0].answer.isAnswer = data.answer_state;
+										// UI.student.pages[0].answer.lastAnswer = data.answer_last;
+										console.log('callback', UI.student.pages[0].answer);
+									},
+								});
+								//-------문제컴포넌트 실행
+							}
+						},
+					],
 				},
+
+
+
+
 				{
-					id: 'aa-00-02',
+					page: 'aa-00-02',
 					time: {
 						start: null,
 						end: null,
 					}, //풀이시간
-					sum: 2, //풀이횟수
-					answer: {
-						"answerSum": 3,
-						"lastAnswer": null,
-						"isAnswer": false,
-					},
-					callback: (el, data) => {
-						console.log('문제2 콜백', UI.json, data);
-
-						//선잇기
-						UI.exe.aa0002 = new DragLine({
-							id: data.id,
-							answerSum: data.answer.answerSum,
-							lastAnswer: data.answer.lastAnswer,
-							callback: (v) => {
-								/**
-								 * 개별 이벤트 완료 시 콜백
-								 * answer_last: {{array}} 정답 선택 정보
-								 * answer_state: {{true | false}} 전체 정답
-								 */
-								UI.json.pages[1].answer.isAnswer = v.answer_state;
-								UI.json.pages[1].answer.lastAnswer = v.answer_last;
-								console.log('callback', UI.json.pages[1].answer);
+					count: 2, //풀이횟수
+					questions: [
+						{
+							id: 'aa-00-02-01', //문제 아이디
+							answer: {
+								"answerSum": 3,
+								"lastAnswer": null,
+								"isAnswer": false,
 							},
-						});
+							callback: (el, data) => {
+								console.log('문제2 콜백') 
 
-					}
+								//선잇기
+								// UI.exe.aa0002 = new DragLine({
+								// 	id: data.id,
+								// 	answerSum: data.answer.answerSum,
+								// 	lastAnswer: data.answer.lastAnswer,
+								// 	callback: (v) => {
+									
+								// 		UI.student.pages[1].answer.isAnswer = v.answer_state;
+								// 		UI.student.pages[1].answer.lastAnswer = v.answer_last;
+								// 		console.log('callback', UI.student.pages[1].answer);
+								// 	},
+								// });
+
+							}
+						}
+						
+					],
+					
+					
 				},
 
 			]
 		};
-
-
-
-
-
 
 
 
@@ -123,7 +134,8 @@
 		 */
 		
 
-		const page = new innerPage(UI.json);
+		const innerPage = new InnerPage(UI.student);
+		//innerPage.pageLoad(0) 페이지 이동 함수
 
 
 	</script>

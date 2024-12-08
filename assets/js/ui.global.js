@@ -821,42 +821,42 @@
 		},
 	}
 
+	Global.correctCheck = (a, b) => {
+		if (b !== null) {
+			a.length > 1 && a.sort();
+			b.length > 1 && b.sort();
+			return a.length === b.length && a.every((v, i) => v === b[i]); 
+		} else {
+			return null;
+		}
+	}
+
 	//common exe
 	Global.parts.resizeState();
 	Global.parts.scroll();
 })();
 
-class innerPage {
+class InnerPage {
 	constructor(opt) {
 		this.pages = opt.pages;
-		this.playTime = this.pages.time
+		this.pageView = opt.pageView;
 		this.name = opt.name;
+
+		this.playTime = this.pages.time
 		this.page_length = this.pages.length;
-		this.pageView = opt.viewpage;
+
+		this.innerPage = document.querySelector('.inner-page');
+		this.innerPageWrap = this.innerPage.querySelector('.inner-page--wrap');
+		this.innerPageItem = this.innerPageWrap.querySelector('.inner-page--item');
+		this.curretPageNumber = this.pageView - 1;
+
 		this.init();
 	}
 	init() {
-		const innerPage = document.querySelector('.inner-page');
-		const innerPageWrap = document.querySelector('.inner-page--wrap');
-		const item = document.querySelector('.inner-page--item');
-		const curretPageNumber = this.pageView - 1;
-		
- 		
-		const pageLoad = (v) => {
-			const _this = this.pages[v];
-			const src = _this.id + '.html';
-			fetch(src)
-			.then(response => response.text())
-			.then(result => {
-				item.innerHTML = result;
-			}).then(() => {
-				_this.time.start = new Date();
-				_this.time.end = null;
-				_this.callback(item, _this);
-			});
-		}
-		pageLoad(curretPageNumber);
- 
+ 		//첫 기본 page 불러오기
+		this.pageLoad(this.curretPageNumber);
+
+		//페이지네이션 생성
 		const paginationHtml = `<div class="inner-page--pagination">
 			<button type="button" data-act="prev">이전</button>
 			<div>
@@ -864,19 +864,15 @@ class innerPage {
 			</div>
 			<button type="button" data-act="next">다음</button>
 		</div>`;
-
-		innerPage.insertAdjacentHTML("beforeend", paginationHtml);
-
-		const prev = document.querySelector('.inner-page--pagination-prev');
-		const next = document.querySelector('.inner-page--pagination-next');
-		const pagination = document.querySelector('.inner-page--pagination');
+		this.innerPage.insertAdjacentHTML("beforeend", paginationHtml);
+		const pagination = this.innerPage.querySelector('.inner-page--pagination');
 		const paginationNumber = pagination.querySelector('.inner-page--pagination-n');
 		const paginationBtns = pagination.querySelectorAll('button');
 		const paginationBtnPrev = pagination.querySelector('button[data-act="prev"]');
 		const paginationBtnNext = pagination.querySelector('button[data-act="next"]');
-		
 		pagination.dataset.current = this.pageView;
 
+		//페이지이동 실행
 		const pageAct = (e) => {
 			const n = Number(this.pageView);
 			const _this = e.target;
@@ -889,18 +885,33 @@ class innerPage {
 			if (act === 'prev') {
 				this.pageView = n - 1;
 				if (this.pageView <= 1) this.pageView = 1;
-				pageLoad(this.pageView - 1);
+				this.pageLoad(this.pageView - 1);
 			} else {
 				this.pageView = n + 1;
 				if (this.pageView >= this.page_length) this.pageView = this.page_length;
-				pageLoad(this.pageView - 1);
+				this.pageLoad(this.pageView - 1);
 			}
 			pagination.dataset.current = this.pageView;
 			paginationNumber.textContent = this.pageView;
 		};
-		
 		paginationBtns.forEach((item) => {
 			item.addEventListener('click', pageAct)
+		});
+	}
+	pageLoad(v) {
+		const _this = this.pages[v];
+		const src = _this.page + '.html';
+
+		fetch(src)
+		.then(response => response.text())
+		.then(result => {
+			this.innerPageItem.innerHTML = result;
+		}).then(() => {
+			_this.time.start = new Date();
+			_this.time.end = null;
+			_this.questions.forEach((item, index) => {
+				item.callback(item, _this.questions[index]);
+			});
 		});
 	}
 }
@@ -911,24 +922,57 @@ class MultipleChoice {
 		this.id = opt.id;
 		this.wrap = document.querySelector(`[data-choice-id="${this.id}"]`);
 		this.items = this.wrap.querySelectorAll(`.multiple-choice--item`);
-		
-		this.answer_len = Number(opt.answerSum);
-		this.answer_last = opt.lastAnswer;
+		this.answer = opt.answer;
 		this.callback = opt.callback;
-		this.callbackComplete = opt.callbackComplete;
-		this.callbackCheck = opt.callbackCheck;
+		this.correctAnswer = this.answer.correctAnswer; //정답
+		this.selectedAnswer = this.answer.selectedAnswer; //내가 선택한 답
+		this.isCorrect = this.answer.isCorrect; //정답여부
 
-		this.type = this.wrap.dataset.type;
+		this.answer_len = this.correctAnswer.length;
+		this.type = this.answer_len === 1 ? 'single' : 'multiple';
+console.log('init')
 		this.init();
-
-		console.log(this.wrap);
 	}
 	init() {
+		//선택한 답 표시
+		if (!!this.selectedAnswer) {
+			console.log(this.selectedAnswer.length)
+			for (let i = 0; i < this.selectedAnswer.length; i++) {
+				this.wrap.querySelector(`[data-answer="${this.selectedAnswer[i]}"]`).dataset.selected = true;
+				console.log(	this.selectedAnswer)
+				// this.selectedAnswer.push(this.selectedAnswer[i]);
+			}
+
+			this.isCorrect = UI.correctCheck(this.correctAnswer, this.selectedAnswer);
+
+			console.log(this.isCorrect);
+		}
+		//선택 시
 		const act = (e) => {
 			const _this = e.currentTarget;
 
-			_this.dataset.selected = _this.dataset.selected === 'true' ? 'false' : 'true';
-			console.log(_this);
+			if (this.type === 'single' && _this.dataset.selected !== 'true') {
+				this.items.forEach((item) => {
+					item.dataset.selected = 'false';
+				});
+				this.selectedAnswer = [];
+			} 
+
+			if (_this.dataset.selected === 'true') {
+				_this.dataset.selected = 'false';
+				for(let i = 0; i < this.selectedAnswer.length; i++) {
+					if(this.selectedAnswer[i] === Number(_this.dataset.answer))  {
+						this.selectedAnswer.splice(i, 1);
+						break;
+					}
+				}
+			} else {
+				_this.dataset.selected = 'true';
+				this.selectedAnswer.push(Number(_this.dataset.answer));
+			}
+		
+			this.isCorrect = UI.correctCheck(this.correctAnswer, this.selectedAnswer);
+			console.log(this.selectedAnswer, this.isCorrect);
 		}
 		this.items.forEach((item) => {
 			item.addEventListener('click', act);
@@ -939,10 +983,10 @@ class MultipleChoice {
 		for (let item of this.items) {
 			item.removeAttribute('data-selected');
 		}
-		
-		if (isDeep) this.answer_last = [];
+		this.selectedAnswer = [];
+		// if (isDeep) this.selectedAnswer = [];
 
-		console.log('isDeep', isDeep, this.answer_last);
+		console.log('isDeep', isDeep, this.selectedAnswer);
 	}
 	check = () => {
 
