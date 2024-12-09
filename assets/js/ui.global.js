@@ -825,15 +825,20 @@
 		if (b !== null) {
 			a.length > 1 && a.sort();
 			b.length > 1 && b.sort();
+
+			console.log(a,b)
 			return a.length === b.length && a.every((v, i) => v === b[i]); 
 		} else {
 			return null;
 		}
 	}
 	Global.question = {
-		check:(v) => {
-			v.forEach((item) => {
-				UI.exe[item].check();
+		mark:(quiz) => {
+			quiz.forEach((item) => {
+				const _exe = UI.exe[item];
+				_exe.check();
+				console.log(_exe);
+				_exe.answer.selectedAnswer.length ? _exe.answer.checked = true : '';
 			});
 		}
 	}
@@ -931,45 +936,55 @@ class MultipleChoice {
 		this.items = this.wrap.querySelectorAll(`.multiple-choice--item`);
 		this.answer = opt.answer;
 		this.callback = opt.callback;
-		this.correctAnswer = this.answer.correctAnswer; //정답
-		this.selectedAnswer = this.answer.selectedAnswer; //내가 선택한 답
-		this.isCorrect = this.answer.isCorrect; //정답여부
 
-		this.answer_len = this.correctAnswer.length;
+		this.answer_len = this.answer.correctAnswer.length;
 		this.type = this.answer_len === 1 ? 'single' : 'multiple';
 		this.init();
 	}
 	init() {
 		//선택한 답 표시
-		if (!!this.selectedAnswer) {
-			for (let i = 0; i < this.selectedAnswer.length; i++) {
-				this.wrap.querySelector(`[data-answer="${this.selectedAnswer[i]}"]`).dataset.selected = true;
+		if (!!this.answer.selectedAnswer) {
+			for (let i = 0; i < this.answer.selectedAnswer.length; i++) {
+				const _this = this.wrap.querySelector(`[data-answer="${this.answer.selectedAnswer[i]}"]`);
+				_this.dataset.selected = true;
 			}
+			(this.answer.selectedAnswer.length && this.answer.checked) && this.check();
 		}
 		//선택 시
 		const act = (e) => {
 			const _this = e.currentTarget;
+		
+			//싱글
+			if (this.type === 'single') {
+				const el_curret = this.wrap.querySelector('.multiple-choice--item[data-selected="true"]');
 
-			if (this.type === 'single' && _this.dataset.selected !== 'true') {
-				this.items.forEach((item) => {
-					item.dataset.selected = 'false';
-				});
-				this.selectedAnswer = [];
-			} 
-
-			if (_this.dataset.selected === 'true') {
-				_this.dataset.selected = 'false';
-				for(let i = 0; i < this.selectedAnswer.length; i++) {
-					if(this.selectedAnswer[i] === Number(_this.dataset.answer))  {
-						this.selectedAnswer.splice(i, 1);
-						break;
-					}
+				if (_this.dataset.selected !== 'true') {
+					el_curret ? el_curret.dataset.selected = 'false' : '';
+					_this.dataset.selected = 'true';
+					this.answer.selectedAnswer.push(Number(_this.dataset.answer));
+					this.answer.selectedAnswer.length > 1 && this.answer.selectedAnswer.shift();
+				} else {
+					//selected click
+					el_curret.dataset.selected = 'false';
+					this.answer.selectedAnswer = [];
 				}
-			} else {
-				_this.dataset.selected = 'true';
-				this.selectedAnswer.push(Number(_this.dataset.answer));
+			} 
+			//멀티
+			else {
+				if (_this.dataset.selected === 'true') {
+					_this.dataset.selected = 'false';
+					for(let i = 0; i < this.answer.selectedAnswer.length; i++) {
+						if(this.answer.selectedAnswer[i] === Number(_this.dataset.answer))  {
+							this.answer.selectedAnswer.splice(i, 1);
+							break;
+						}
+					}
+				} else {
+					_this.dataset.selected = 'true';
+					this.answer.selectedAnswer.push(Number(_this.dataset.answer));
+				}
 			}
-			this.callback({
+ 			this.callback({
 				el: this.wrap, 
 				data: this.answer,
 			});
@@ -983,14 +998,15 @@ class MultipleChoice {
 		for (let item of this.items) {
 			item.removeAttribute('data-selected');
 		}
-		this.selectedAnswer = [];
+		this.answer.selectedAnswer = [];
 		// if (isDeep) this.selectedAnswer = [];
 
-		console.log('isDeep', isDeep, this.selectedAnswer);
+		console.log('isDeep', isDeep, this.answer.selectedAnswer);
 	}
 	check = () => {
-		console.log(this.answer)
+		console.log('check', this.selectedAnswer, this.answer.isCorrect)
 		const el_title = document.querySelector(`[data-question-title="${this.id}"]`);
+
 		if (!!this.answer.selectedAnswer.length) {
 			el_title.dataset.state = this.answer.isCorrect
 		} else {

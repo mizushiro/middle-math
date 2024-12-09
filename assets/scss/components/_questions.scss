@@ -36,8 +36,8 @@ math {
 	}
 }
 [data-question-title] {
-	&[data-state="false"] {color: red;}
-	&[data-state="true"] {color: blue;}
+	&[data-state="false"] {background-color: red;}
+	&[data-state="true"] {background-color: blue;}
 }
 
 

@@ -41,28 +41,25 @@
 			pages: [
 				{
 					page: 'aa-00-01', //불러올 페이지 이름
-					time: { //풀이시간
-						start: null,
-						end: null,
-					},
+					time: { start: null, end: null }, //풀이시간
 					count: 0, //풀이횟수
 
 					questions: [
 						{
 							id: 'aa-00-01-01', //문제 아이디
 							answer: {
-								correctAnswer: [2, 3], //정답
+								checked: null, //체크여부
+								correctAnswer: [2], //정답
 								selectedAnswer: [], //내가 선택한 답 
 								isCorrect: null, //정답 여부 [null | false | true]
 							},
 							callback: (page) => {
-								const _data = page;
 								//정답여부 isCorrect
-								UI.student.pages[0].questions[0].answer.isCorrect = UI.correctCheck(_data.answer.correctAnswer, _data.answer.selectedAnswer);
+								UI.student.pages[0].questions[0].answer.isCorrect = UI.correctCheck(page.answer.correctAnswer, page.answer.selectedAnswer);
 								//문제컴포넌트 실행------
 								UI.exe.aa000101 = new MultipleChoice({
-									id: _data.id,
-									answer: _data.answer,
+									id: page.id,
+									answer: page.answer,
 									callback: (v) => {
 										//정답여부 isCorrect
 										UI.student.pages[0].questions[0].answer.isCorrect = UI.correctCheck(v.data.correctAnswer, v.data.selectedAnswer);
@@ -74,18 +71,18 @@
 						{
 							id: 'aa-00-01-02', //문제 아이디
 							answer: {
+								checked: null, //체크여부
 								correctAnswer: [1,4], //정답
 								selectedAnswer: [], //내가 선택한 답 
 								isCorrect: null, //정답 여부 [null | false | true]
 							},
 							callback: (page) => {
-								const _data = page;
 								//정답여부 isCorrect
-								UI.student.pages[0].questions[1].answer.isCorrect = UI.correctCheck(_data.answer.correctAnswer, _data.answer.selectedAnswer);
+								UI.student.pages[0].questions[1].answer.isCorrect = UI.correctCheck(page.answer.correctAnswer, page.answer.selectedAnswer);
 								//문제컴포넌트 실행------
 								UI.exe.aa000102 = new MultipleChoice({
-									id: _data.id,
-									answer: _data.answer,
+									id: page.id,
+									answer: page.answer,
 									callback: (v) => {
 										//정답여부 isCorrect
 										UI.student.pages[0].questions[1].answer.isCorrect = UI.correctCheck(v.data.correctAnswer, v.data.selectedAnswer);

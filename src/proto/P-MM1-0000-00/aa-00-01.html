@@ -6,8 +6,8 @@
     </div>
   </h2>
 
-  <div>
-    <div>
+  <div class="grid-row">
+    <div class="grid-item" style="width: 70rem;">
       <h3 data-question-title="aa-00-01-01">(1)</h3>
       <ul class="multiple-choice" data-choice-id="aa-00-01-01">
         <li class="multiple-choice--item" role="button" tabindex="0" data-answer="1">
@@ -183,7 +183,7 @@
         </li>
       </ul>
     </div>
-    <div>
+    <div class="grid-item" style="width: 70rem;">
       <h3 data-question-title="aa-00-01-02">(2)</h3>
       <ul class="multiple-choice" data-choice-id="aa-00-01-02">
         <li class="multiple-choice--item" role="button" tabindex="0" data-answer="1">
@@ -364,10 +364,7 @@
 
 
   <div class="mdl-button-area">
-    <button type="button" class="mdl-button" onclick="UI.question.check(['aa000101','aa000102'])">정답 체크</button>
-    <button type="button" class="mdl-button" onclick="UI.exe.aa000101.complete()">정답 확인</button>
-    <button type="button" class="mdl-button" onclick="UI.exe.aa000101.reset()">정답 리셋</button>
-    <button type="button" class="mdl-button" onclick="UI.exe.aa000101.drawLastAnswer(UI.answer.aa000101)">데이타
-      적용</button>
+    <button type="button" class="mdl-button" onclick="UI.question.mark(['aa000101','aa000102'])">채점하기</button>
+    <button type="button" class="mdl-button">풀이보기</button>
   </div>
 </div>
