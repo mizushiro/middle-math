@@ -893,6 +893,8 @@ class InnerPage {
 			}
 			pagination.dataset.current = this.pageView;
 			paginationNumber.textContent = this.pageView;
+
+			console.log(UI.student);
 		};
 		paginationBtns.forEach((item) => {
 			item.addEventListener('click', pageAct)
@@ -930,22 +932,14 @@ class MultipleChoice {
 
 		this.answer_len = this.correctAnswer.length;
 		this.type = this.answer_len === 1 ? 'single' : 'multiple';
-console.log('init')
 		this.init();
 	}
 	init() {
 		//선택한 답 표시
 		if (!!this.selectedAnswer) {
-			console.log(this.selectedAnswer.length)
 			for (let i = 0; i < this.selectedAnswer.length; i++) {
 				this.wrap.querySelector(`[data-answer="${this.selectedAnswer[i]}"]`).dataset.selected = true;
-				console.log(	this.selectedAnswer)
-				// this.selectedAnswer.push(this.selectedAnswer[i]);
 			}
-
-			this.isCorrect = UI.correctCheck(this.correctAnswer, this.selectedAnswer);
-
-			console.log(this.isCorrect);
 		}
 		//선택 시
 		const act = (e) => {
@@ -970,9 +964,10 @@ console.log('init')
 				_this.dataset.selected = 'true';
 				this.selectedAnswer.push(Number(_this.dataset.answer));
 			}
-		
-			this.isCorrect = UI.correctCheck(this.correctAnswer, this.selectedAnswer);
-			console.log(this.selectedAnswer, this.isCorrect);
+			this.callback({
+				el: this.wrap, 
+				data: this.answer,
+			});
 		}
 		this.items.forEach((item) => {
 			item.addEventListener('click', act);

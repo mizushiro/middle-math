@@ -52,19 +52,23 @@
 							id: 'aa-00-01-01', //문제 아이디
 							answer: {
 								correctAnswer: [2, 3], //정답
-								selectedAnswer: [3], //내가 선택한 답 
+								selectedAnswer: [], //내가 선택한 답 
 								isCorrect: null, //정답 여부 [null | false | true]
 							},
-							callback: (el, data) => {
-								console.log('문제1-1 콜백', data);
+							callback: (v) => {
+								const _data = v;
+								
+								//정답여부 isCorrect
+								UI.student.pages[0].questions[0].answer.isCorrect = UI.correctCheck(_data.answer.correctAnswer, _data.answer.selectedAnswer);
+
 								//문제컴포넌트 실행------
 								UI.exe.aa000101 = new MultipleChoice({
-									id: data.id,
-									answer: data.answer,
+									id: _data.id,
+									answer: _data.answer,
 									callback: (v) => {
-										// UI.student.pages[0].answer.isAnswer = data.answer_state;
-										// UI.student.pages[0].answer.lastAnswer = data.answer_last;
-										console.log('callback', UI.student.pages[0].answer);
+
+										//정답여부 isCorrect
+										UI.student.pages[0].questions[0].answer.isCorrect = UI.correctCheck(v.data.correctAnswer, v.data.selectedAnswer);
 									},
 								});
 								//-------문제컴포넌트 실행
