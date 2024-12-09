@@ -55,20 +55,40 @@
 								selectedAnswer: [], //내가 선택한 답 
 								isCorrect: null, //정답 여부 [null | false | true]
 							},
-							callback: (v) => {
-								const _data = v;
-								
+							callback: (page) => {
+								const _data = page;
 								//정답여부 isCorrect
 								UI.student.pages[0].questions[0].answer.isCorrect = UI.correctCheck(_data.answer.correctAnswer, _data.answer.selectedAnswer);
-
 								//문제컴포넌트 실행------
 								UI.exe.aa000101 = new MultipleChoice({
 									id: _data.id,
 									answer: _data.answer,
 									callback: (v) => {
-
 										//정답여부 isCorrect
 										UI.student.pages[0].questions[0].answer.isCorrect = UI.correctCheck(v.data.correctAnswer, v.data.selectedAnswer);
+									},
+								});
+								//-------문제컴포넌트 실행
+							}
+						},
+						{
+							id: 'aa-00-01-02', //문제 아이디
+							answer: {
+								correctAnswer: [1,4], //정답
+								selectedAnswer: [], //내가 선택한 답 
+								isCorrect: null, //정답 여부 [null | false | true]
+							},
+							callback: (page) => {
+								const _data = page;
+								//정답여부 isCorrect
+								UI.student.pages[0].questions[1].answer.isCorrect = UI.correctCheck(_data.answer.correctAnswer, _data.answer.selectedAnswer);
+								//문제컴포넌트 실행------
+								UI.exe.aa000102 = new MultipleChoice({
+									id: _data.id,
+									answer: _data.answer,
+									callback: (v) => {
+										//정답여부 isCorrect
+										UI.student.pages[0].questions[1].answer.isCorrect = UI.correctCheck(v.data.correctAnswer, v.data.selectedAnswer);
 									},
 								});
 								//-------문제컴포넌트 실행

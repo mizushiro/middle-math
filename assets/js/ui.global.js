@@ -830,6 +830,13 @@
 			return null;
 		}
 	}
+	Global.question = {
+		check:(v) => {
+			v.forEach((item) => {
+				UI.exe[item].check();
+			});
+		}
+	}
 
 	//common exe
 	Global.parts.resizeState();
@@ -893,8 +900,6 @@ class InnerPage {
 			}
 			pagination.dataset.current = this.pageView;
 			paginationNumber.textContent = this.pageView;
-
-			console.log(UI.student);
 		};
 		paginationBtns.forEach((item) => {
 			item.addEventListener('click', pageAct)
@@ -912,7 +917,7 @@ class InnerPage {
 			_this.time.start = new Date();
 			_this.time.end = null;
 			_this.questions.forEach((item, index) => {
-				item.callback(item, _this.questions[index]);
+				item.callback(item);
 			});
 		});
 	}
@@ -984,7 +989,13 @@ class MultipleChoice {
 		console.log('isDeep', isDeep, this.selectedAnswer);
 	}
 	check = () => {
-
+		console.log(this.answer)
+		const el_title = document.querySelector(`[data-question-title="${this.id}"]`);
+		if (!!this.answer.selectedAnswer.length) {
+			el_title.dataset.state = this.answer.isCorrect
+		} else {
+			alert('정답을 선택하세요.');
+		}
 	}
 	complete = () => {
 
