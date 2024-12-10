@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS와 JavaScript로 책 넘기기 효과</title>
+  <style>
+     .my-page{background-color: antiquewhite;}
+  </style>
+</head>
+<body>
+  <div id="book">
+    <div class="my-page" data-density="hard">
+        Page Cover
+    </div>
+    <div class="my-page">
+        Page one
+    </div>
+    <div class="my-page">
+        Page two
+    </div>
+    <div class="my-page">
+        Page three
+    </div>
+    <div class="my-page">
+        Page four
+    </div>
+    <div class="my-page" data-density="hard">
+        Last page
+    </div>
+  </div>
+
+  <script src="./page-flip.browser.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const pageFlip = new St.PageFlip(
+        document.getElementById('book'),
+        {
+          // start page index
+          startPage: 0,
+          size: 'fixed',
+          width: 300,
+          height: 500,
+          minWidth: 0,
+          maxWidth: 0,
+          minHeight: 0,
+          maxHeight: 0,
+          drawShadow: true, //페이지를 넘길 때 그림자 여부
+          flippingTime: 1000, //애니메이션 시간
+          usePortrait: true, //세로모드전환
+          startZIndex: 2, //z-index초기값
+          autoSize: true, //책크기와동일
+          maxShadowOpacity: 0.3,
+          showCover: false,
+          mobileScrollSupport: true
+        }
+      );
+      // pageFlip.loadFromImages(['./page1.jpg', './page2.jpg', './page1.jpg', './page2.jpg', './page1.jpg', './page2.jpg']);
+      pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
+      pageFlip.on('flip', (e) => {
+        console.log("Current page: " + e.data);
+        // callback code
+      });
+
+     
+      // pageFlip.on('flip', (e) => {
+      //   console.log("Current page: " + e.data);
+      //   // callback code
+      //   }
+      // );
+      // get total number of pages
+      //pageFlip.getPageCount();
+      // get the current page index
+      // pageFlip.getCurrentPageIndex();
+      // // turn to a specific page
+      // pageFlip.turnToPage(pageNum: number);
+      // // turn to the next page
+      // pageFlip.turnToNextPage();
+      // // turn to the previous page
+      // pageFlip.turnToPrevPage();
+      // // turn to the next page with animation
+      // pageFlip.flipNext(corner: 'top' | 'bottom');
+      // // turn to the previous page with animation
+      // pageFlip.flipPrev(corner: 'top' | 'bottom');
+      // // turn to a specific page with animation
+      // pageFlip.flip(pageNum: number, corner: 'top' | 'bottom');
+      // // update pages
+      // pageFlip.updateFromHtml(items: NodeListOf | HTMLElement[]);
+      // pageFlip.updateFromImages(images: ['path-to-image1.jpg', ...]);
+      // // destroy the instance
+      // pageFlip.destroy();
+
+      // triggered by page turning
+      // pageFlip.on("flip", (e) => {
+      //   document.querySelector(".page-current").innerText = e.data + 1;
+      // });
+      // // triggered when the state of the book changes
+      // pageFlip.on("changeState", (e) => {
+      //   // ("user_fold", "fold_corner", "flipping", "read")
+      // });
+      // // triggered when page orientation changes
+      // pageFlip.on("changeOrientation", (e) => {
+      //   // ("portrait", "landscape")
+      // });
+      // // triggered when the book is init and the start page is loaded
+      // pageFlip.on("init", (e) => {
+      //   ({page: number, mode: 'portrait'})
+      // });
+      // // triggered when the book pages are updated
+      // pageFlip.on("update", (e) => {
+      //   // ({page: number, mode: 'portrait', 'landscape'})
+      // });
+    });
+  </script>
+</body>
+</html>
