@@ -5,65 +5,136 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CSS와 JavaScript로 책 넘기기 효과</title>
   <style>
-    .my-page{background-color: antiquewhite; 
+    html,body{margin: 0; padding: 0; background-color: #ccc; overflow: hidden; height: 100%; width: 100%;}
+    *{box-sizing: border-box;}
+    .page{
       -webkit-user-select:none;
       -moz-user-select:none;
       -ms-user-select:none;
       user-select:none;
       box-shadow: 0 0 0.5rem rgb(0,0,0,0.2);
+
+      padding:40px;
+      background-color: #fff;
+      border: solid 1px #c2b5a3;
+      overflow: hidden;
+      img {width: 100%; display: block; object-fit: cover;}
     }
+    .ebook-flip {
+      background-color: #fff;
+    }
+    .flip-book {
+      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+      margin: 0 auto;
+      display: none;
+      z-index: 100;
+      
+    }
+    .page.--left {
+      border-right: 0;
+      box-shadow: inset -7px 0 30px -7px rgba(0,0,0,0.4)
+    }
+
+    .page.--right {
+      border-left: 0;
+      box-shadow: inset 7px 0 30px -7px rgba(0,0,0,0.4)
+    }
+    .ebook-flip {padding: 30px;}
+
+
+  .pBlock--mobile {
+      width: 390px;
+      height: 620px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      background-color: #dddddd;
+      border-radius: 4px;
+      background-size: cover
+  }
+
+  .pBlock--tablet {
+      width: 620px;
+      height: 900px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      background-color: #dddddd;
+      border-radius: 4px;
+      background-size: cover
+  }
+
+  .pBlock--tablet-l {
+      width: 900px;
+      height: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      background-color: #dddddd;
+      border-radius: 4px;
+      background-size: cover
+  }
+
   </style>
 </head>
 <body>
-  <div id="book">
-    <div class="my-page" data-density="hard">
-        Page Cover
+
+  <div class="ebook-flip">
+    <div  class="flip-book html-book" id="book">
+      <div class="page">
+        <img src="./page1.jpg" alt="">
+      </div>
+      <div class="page">
+        <img src="./page2.jpg" alt="">
+      </div>
+      <div class="page">
+        <img src="./page3.jpg" alt="">
+      </div>
+      <div class="page">
+        <img src="./page4.jpg" alt="">
+      </div>
+       <div class="page">
+        <img src="./page1.jpg" alt="">
+      </div>
+      <div class="page">
+        <img src="./page2.jpg" alt="">
+      </div>
+      <div class="page">
+        <img src="./page3.jpg" alt="">
+      </div>
+      <div class="page" data-density="hard">
+      </div>
     </div>
-    <div class="my-page">
-        Page one
-    </div>
-    <div class="my-page">
-        Page two
-    </div>
-    <div class="my-page">
-        Page three
-    </div>
-    <div class="my-page">
-        Page four
-    </div>
-    <div class="my-page" data-density="hard">
-        Last page
+    <div class="ebook-flip--control">
+      <button type="button" class="ebook-flip--prev" onclick="window.UI.pageFlip.flipPrev()">prev</button>
+      <button type="button" class="ebook-flip--next" onclick="window.UI.pageFlip.flipNext()">next</button>
     </div>
   </div>
+  
 
   <script src="./page-flip.browser.js"></script>
   <script>
+    window.UI = {}
     document.addEventListener("DOMContentLoaded", function () {
-      const pageFlip = new St.PageFlip(
+      window.UI.pageFlip = new St.PageFlip(
         document.getElementById('book'),
         {
           // start page index
-          startPage: 0,
-          size: 'fixed',
-          width: 300,
-          height: 500,
-          minWidth: 0,
-          maxWidth: 0,
-          minHeight: 0,
-          maxHeight: 0,
-          drawShadow: true, //페이지를 넘길 때 그림자 여부
-          flippingTime: 1000, //애니메이션 시간
-          usePortrait: true, //세로모드전환
-          startZIndex: 2, //z-index초기값
-          autoSize: true, //책크기와동일
-          maxShadowOpacity: 0.3,
-          showCover: false,
-          mobileScrollSupport: true
+          width: 550,
+          height: 733,
+          size: "stretch",
+          minWidth: 315,
+          maxWidth: 1e3,
+          minHeight: 400,
+          maxHeight: 1533,
+          maxShadowOpacity: .5,
+          // showCover: !0,
+          mobileScrollSupport: !1,
         }
       );
-      // pageFlip.loadFromImages(['./page1.jpg', './page2.jpg', './page1.jpg', './page2.jpg', './page1.jpg', './page2.jpg']);
-      pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
-      pageFlip.on('flip', (e) => {
+      // window.UI.pageFlip.loadFromImages(['./page1.jpg', './page2.jpg', './page3.jpg', './page4.jpg', './page2.jpg', './page3.jpg', './page4.jpg']);
+      window.UI.pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+      window.UI.pageFlip.on('flip', (e) => {
         console.log("Current page: " + e.data);
         // callback code
       });
