@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS와 JavaScript로 책 넘기기 효과</title>
+
+  <link rel="stylesheet" href="./assets/css/flip.css">
+  <style>
+    html,body{margin: 0; padding: 0; background-color: #ccc; overflow: hidden; height: 100%; width: 100%;}
+    *{box-sizing: border-box;}
+    
+  </style>
+</head>
+<body>
+
+  <div class="ebook-flip">
+    <div class="ebook-flip--group" id="book"></div>
+  </div>
+  
+
+  <script src="./assets/lib/page-flip.browser.js"></script>
+  <script src="./assets/js/ui.global.js"></script>
+  <script>
+    window.UI = {}
+    document.addEventListener("DOMContentLoaded", function () {
+
+      //pdf 이미지
+      const data_pdf = ['./assets/img/page1.jpg', './assets/img/page2.jpg', './assets/img/page3.jpg', './assets/img/page4.jpg', './assets/img/page2.jpg', './assets/img/page3.jpg', './assets/img/page4.jpg'];
+
+
+      const ebookLoad = new PDFeBook({
+        id: 'book',
+        data: data_pdf
+      });
+
+     
+     
+    
+      
+      
+     
+      // pageFlip.on('flip', (e) => {
+      //   console.log("Current page: " + e.data);
+      //   // callback code
+      //   }
+      // );
+      // get total number of pages
+      //pageFlip.getPageCount();
+      // get the current page index
+      // pageFlip.getCurrentPageIndex();
+      // // turn to a specific page
+      // pageFlip.turnToPage(pageNum: number);
+      // // turn to the next page
+      // pageFlip.turnToNextPage();
+      // // turn to the previous page
+      // pageFlip.turnToPrevPage();
+      // // turn to the next page with animation
+      // pageFlip.flipNext(corner: 'top' | 'bottom');
+      // // turn to the previous page with animation
+      // pageFlip.flipPrev(corner: 'top' | 'bottom');
+      // // turn to a specific page with animation
+      // pageFlip.flip(pageNum: number, corner: 'top' | 'bottom');
+      // // update pages
+      // pageFlip.updateFromHtml(items: NodeListOf | HTMLElement[]);
+      // pageFlip.updateFromImages(images: ['path-to-image1.jpg', ...]);
+      // // destroy the instance
+      // pageFlip.destroy();
+
+      // triggered by page turning
+      // pageFlip.on("flip", (e) => {
+      //   document.querySelector(".page-current").innerText = e.data + 1;
+      // });
+      // // triggered when the state of the book changes
+      // pageFlip.on("changeState", (e) => {
+      //   // ("user_fold", "fold_corner", "flipping", "read")
+      // });
+      // // triggered when page orientation changes
+      // pageFlip.on("changeOrientation", (e) => {
+      //   // ("portrait", "landscape")
+      // });
+      // // triggered when the book is init and the start page is loaded
+      // pageFlip.on("init", (e) => {
+      //   ({page: number, mode: 'portrait'})
+      // });
+      // // triggered when the book pages are updated
+      // pageFlip.on("update", (e) => {
+      //   // ({page: number, mode: 'portrait', 'landscape'})
+      // });
+    });
+  </script>
+</body>
+</html>
