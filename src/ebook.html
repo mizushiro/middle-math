@@ -85,6 +85,16 @@
     width: min-content;
     white-space: nowrap;
   }
+  .ebook-flip{
+    container-name: ebook;
+    container-type: block-size;
+  }
+  
+  @container (width < 650px) {
+    .ebook-flip {
+      background-color: gray;
+    }
+  }
   </style>
 </head>
 <body>
@@ -103,8 +113,8 @@
       <div class="page">
         <img src="./page4.jpg" alt="">
       </div>
-
-      <div class="page" data-density="hard">
+      <div class="page">
+        <img src="./page1.jpg" alt="">
       </div>
     </div>
     <div class="ebook-flip--control">
