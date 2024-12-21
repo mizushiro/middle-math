@@ -37,7 +37,7 @@
 			sID: 'm1_01_01',
 			sName: '김미래',
 
-			pageView: 1,
+			pageView: 2,
 			pages: [
 				{
 					page: 'aa-00-01', //불러올 페이지 이름
@@ -71,8 +71,8 @@
 						{
 							id: 'aa-00-01-02', //문제 아이디
 							answer: {
-								checked: null, //체크여부
-								correctAnswer: [1,4], //정답
+								checked: null, //문제 채점여부
+								correctAnswer: [1, 4], //정답
 								selectedAnswer: [], //내가 선택한 답 
 								isCorrect: null, //정답 여부 [null | false | true]
 							},
@@ -94,39 +94,43 @@
 					],
 				},
 
-
-
-
 				{
-					page: 'aa-00-02',
-					time: {
-						start: null,
-						end: null,
-					}, //풀이시간
-					count: 2, //풀이횟수
+					page: 'aa-00-02', //불러올 페이지 이름
+					time: { start: null, end: null }, //풀이시간
+					count: 0, //풀이횟수
+					
 					questions: [
 						{
 							id: 'aa-00-02-01', //문제 아이디
 							answer: {
-								"answerSum": 3,
-								"lastAnswer": null,
-								"isAnswer": false,
+								checked: null, //문제 채점여부
+								correctAnswer: [1, [2, 3], 3], //정답
+								selectedAnswer: [], //내가 선택한 답 
+								isCorrect: null, //정답 여부 [null | false | true]
 							},
-							callback: (el, data) => {
-								console.log('문제2 콜백') 
+
+							// answer: {
+							// 	"answerSum": 3,
+							// 	"lastAnswer": null,
+							// 	"isAnswer": false,
+							// },
+							callback: (page) => {
+								console.log('문제2 콜백',page);
 
 								//선잇기
-								// UI.exe.aa0002 = new DragLine({
-								// 	id: data.id,
-								// 	answerSum: data.answer.answerSum,
-								// 	lastAnswer: data.answer.lastAnswer,
-								// 	callback: (v) => {
+								UI.exe.aa0002 = new DragLine({
+									id: page.id,
+									answer: page.answer,
+
+									// answerSum: data.answer.answerSum,
+									// lastAnswer: data.answer.lastAnswer,
+									callback: (v) => {
 									
-								// 		UI.student.pages[1].answer.isAnswer = v.answer_state;
-								// 		UI.student.pages[1].answer.lastAnswer = v.answer_last;
-								// 		console.log('callback', UI.student.pages[1].answer);
-								// 	},
-								// });
+										// UI.student.pages[1].answer.isAnswer = v.answer_state;
+										// UI.student.pages[1].answer.lastAnswer = v.answer_last;
+										// console.log('callback', UI.student.pages[1].answer);
+									},
+								});
 
 							}
 						}

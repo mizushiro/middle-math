@@ -328,152 +328,7 @@
 			}, 300);
 		}
 	}
-	Global.scroll = {
-		options: {
-			selector: document.querySelector('html, body'),
-			focus: false,
-			top: 0,
-			left: 0,
-			add: 0,
-			align: 'default',
-			effect: 'smooth', //'auto'
-			callback: false,
-		},
-		init() {
-			const el_areas = document.querySelectorAll('.ui-scrollmove-btn[data-area]');
 
-			for (let i = 0, len = el_areas.length; i < len; i++) {
-				const that = el_areas[i];
-
-				that.removeEventListener('click', this.act);
-				that.addEventListener('click', this.act);
-			}
-			// for (let that of el_areas) {
-			// 	that.removeEventListener('click', this.act);
-			// 	that.addEventListener('click', this.act);
-			// }
-		},
-		act(e) {
-			const el = e.currentTarget;
-			const area = el.dataset.area;
-			const name = el.dataset.name;
-			const add = el.dataset.add === undefined ? 0 : el.dataset.add;
-			const align = el.dataset.align === undefined ? 'default' : el.dataset.align;
-			const callback = el.dataset.callback === undefined ? false : el.dataset.callback;
-			let el_area = document.querySelector('.ui-scrollmove[data-area="' + area + '"]');
-			const item = el_area.querySelector('.ui-scrollbar-item');
-
-			if (!!item) {
-				el_area = el_area.querySelector('.ui-scrollbar-item');
-			}
-
-			const el_item = el_area.querySelector('.ui-scrollmove-item[data-name="' + name + '"]');
-
-			let top = (el_area.getBoundingClientRect().top - el_item.getBoundingClientRect().top) - el_area.scrollTop;
-			let left = (el_area.getBoundingClientRect().left - el_item.getBoundingClientRect().left) - el_area.scrollLeft;
-
-			if (align === 'center') {
-				top = top - (el_item.offsetHeight / 2);
-				left = left - (el_item.offsetWidth / 2);
-			}
-
-			Global.scroll.move({
-				top: top,
-				left: left,
-				add: add,
-				selector: el_area,
-				align: align,
-				focus: el_item,
-				callback: callback
-			});
-		},
-		move(option) {
-			const opt = Object.assign({}, this.options, option);
-			//const opt = {...this.options, ...option};
-			const top = opt.top;
-			const left = opt.left;
-			const callback = opt.callback;
-			const align = opt.align;
-			const add = opt.add;
-			const focus = opt.focus;
-			const effect = opt.effect;
-			let selector = opt.selector;
-			const item = selector.querySelector('.ui-scrollbar-item');
-			const isCustomScroll = selector.classList.contains('ui-scrollbar');
-
-			if (!!item && !!isCustomScroll) {
-				selector = selector.querySelector('.ui-scrollbar-item');
-			}
-
-			switch (align) {
-				case 'center':
-					selector.scrollTo({
-						top: Math.abs(top) - (selector.offsetHeight / 2) + add,
-						left: Math.abs(left) - (selector.offsetWidth / 2) - add,
-						behavior: effect
-					});
-					break;
-
-				case 'default':
-				default:
-					selector.scrollTo({
-						top: Math.abs(top) + add,
-						left: Math.abs(left) + add,
-						behavior: effect
-					});
-			}
-			this.checkEnd({
-				selector: selector,
-				nowTop: selector.scrollTop,
-				nowLeft: selector.scrollLeft,
-				align: align,
-				callback: callback,
-				focus: focus
-			});
-		},
-		checkEndTimer: {},
-		checkEnd(opt) {
-			const el_selector = opt.selector;
-			const align = opt.align
-			const focus = opt.focus
-			const callback = opt.callback
-
-			let nowTop = opt.nowTop;
-			let nowLeft = opt.nowLeft;
-
-			Global.scroll.checkEndTimer = setTimeout(() => {
-				//스크롤 현재 진행 여부 판단
-				if (nowTop === el_selector.scrollTop && nowLeft === el_selector.scrollLeft) {
-					clearTimeout(Global.scroll.checkEndTimer);
-					//포커스가 위치할 엘리먼트를 지정하였다면 실행
-					if (!!focus) {
-						focus.setAttribute('tabindex', 0);
-						focus.focus();
-					}
-					//스크롤 이동후 콜백함수 실행
-					if (!!callback) {
-						if (typeof callback === 'string') {
-							Global.callback[callback]();
-						} else {
-							callback();
-						}
-					}
-				} else {
-					nowTop = el_selector.scrollTop;
-					nowLeft = el_selector.scrollLeft;
-
-					Global.scroll.checkEnd({
-						selector: el_selector,
-						nowTop: nowTop,
-						nowLeft: nowLeft,
-						align: align,
-						callback: callback,
-						focus: focus
-					});
-				}
-			}, 100);
-		}
-	}
 	Global.form = {
 		init() {
 			const el_inps = document.querySelectorAll('.inp-base');
@@ -843,11 +698,9 @@
 		}
 	}
 
-	//common exe
-	Global.parts.resizeState();
-	Global.parts.scroll();
 })();
 
+//문제 컨텐츠 불러오기
 class InnerPage {
 	constructor(opt) {
 		this.pages = opt.pages;
@@ -1037,9 +890,9 @@ class DragLine {
 		this.objects = this.wrap.querySelectorAll(`[data-line-object]`);
 		this.targets = this.wrap.querySelectorAll(`[data-line-target]`);
 
-		this.type = this.wrap.dataset.lineType
-			? this.wrap.dataset.lineType
-			: 'single';
+		// this.type = this.wrap.dataset.lineType
+		// 	? this.wrap.dataset.lineType
+		// 	: 'single';
 		const rect = this.wrap.getBoundingClientRect();
 		this.wrap_t = rect.top;
 		this.wrap_l = rect.left;
@@ -1048,10 +901,26 @@ class DragLine {
 
 		this.n = this.objects.length;
 		this.svg = null;
-		this.answer_len = Number(opt.answerSum);
+
+		this.answer = opt.answer;
+		this.correctAnswer = this.answer.correctAnswer;
+
+		let len = 0;
+		this.correctAnswer.forEach(item => {
+			if (item.length) {
+				len = len + item.length;
+			} else {
+				len = len + 1;
+			}
+			this.answer.selectedAnswer.push([]);
+		});
+
+		this.answer_len = Number(len);
+		this.type = (this.answer_len > this.answer.correctAnswer.length) ? 'multiple' : 'single';
+
 		this.answer_n = 0;
 		this.complete_n = 0;
-		this.answer_last = opt.lastAnswer;
+		this.selectedAnswer = this.answer.selectedAnswer;
 
 		this.callback = opt.callback;
 		this.callbackComplete = opt.callbackComplete;
@@ -1064,7 +933,7 @@ class DragLine {
 		const isMobile = varUA.indexOf('android') > -1 || varUA.indexOf('iphone') > -1 || varUA.indexOf('ipad') > -1 || varUA.indexOf('ipod') > -1;
 
 		if (!isMobile) this.isTouch = false;
-
+		
 		this.init();
 	}
 
@@ -1110,10 +979,10 @@ class DragLine {
 			this.wrap.style.opacity = '1';
 
 			//선택한 정답 존재 여부에 따라 
-			if (this.answer_last?.length) {
-				this.drawLastAnswer();
+			if (this.selectedAnswer?.length) {
+				// this.drawLastAnswer();
 			} else {
-				this.answer_last = [];
+				// this.selectedAnswer = [];
 			}
 		};
 		this.wrap.style.opacity = '0';
@@ -1258,261 +1127,12 @@ class DragLine {
 			let x_value;
 			let y_value;
 
-			if (_drag.dataset.ing === 'true') {
-				if (this.isTouch) {
-					let el_line = this.svg.querySelector('line[data-state="ing"]');
-					_x = e.clientX ? e.clientX : e.targetTouches[0].clientX;
-					_y = e.clientY ? e.clientY : e.targetTouches[0].clientY;
-					el_line.setAttribute('x2', _x - this.wrap_l);
-					el_line.setAttribute('y2', _y - this.wrap_t);
+			const isSelectedAnswer = this.selectedAnswer[Number(el_item.dataset.name)];
 
-					moving = true;
 
-					const rect_item = el_item.getBoundingClientRect();
-					const item_w = el_item.offsetWidth / 2;
-					const item_h = el_item.offsetHeight / 2;
-					let is_object = el_item.dataset.lineObject ? true : false;
+console.log('start', _drag, _drag.dataset.ing);
 
-					let value = is_object
-						? el_item.dataset.lineObject
-						: el_item.dataset.lineTarget;
-					const data_name = el_item.dataset.name;
-					is_object = true;
-
-					//클릭완료이벤트에 클릭이벤트인경우 클릭완료 설정
-					_drag.dataset.ing = 'false';
-					document.querySelector('body').classList.remove('noScroll');
-					const v_x = _x - this.wrap_l;
-					const v_y = _y - this.wrap_t;
-					let is_complete = false;
-					moving = false;
-
-					if (el_line) {
-						el_line.dataset.state = 'complete';
-					}
-					el_item.dataset.active = '';
-					firstTouch.state = false;
-
-					for (let item of this.items) {
-						const _isObject = item.dataset.lineObject ? true : false;
-
-						//다른그룹일때만
-						if (_isObject !== isObject) {
-							let is_selected = false;
-							let connect_array;
-
-							//완료된아이템여부 확인
-							const _is_complete = item.dataset.complete;
-							const _value = _isObject
-								? item.dataset.lineObject
-								: item.dataset.lineTarget;
-
-							const _rect_item = item.getBoundingClientRect();
-							const i_x = Number(item.dataset.x);
-							const i_y = Number(item.dataset.y);
-
-							//현재위치가 범위내에 들어와 있는지?
-							const if_x =
-								v_x <= i_x + item_w && v_x + item_w * 2 >= i_x + item_w;
-							const if_y =
-								v_y >= i_y - item_h && v_y <= i_y - item_h + item_h * 2;
-
-							//싱글 연결완료조건: 범위내, 미완료
-							//멀티 연결완료조건: 범위내
-							const if_true =
-								this.type === 'single'
-									? if_x && if_y && !_is_complete
-									: if_x && if_y;
-
-							//멀티
-							//연결된 아이템인 경우에서 서로 이미 연결이 된 경우라면 is_selected true 설정하여 연결실패로 처리
-							if (this.type === 'multiple' && item.dataset.connect) {
-								connect_array = item.dataset.connect.split(',');
-
-								for (let i = 0; i < connect_array.length; i++) {
-									if (data_name === connect_array[i]) {
-										is_selected = true;
-										break;
-									}
-								}
-							}
-
-							//연결성공
-							if (if_true && !is_selected) {
-								//연결된 아이템 완료상태
-								el_item.dataset.complete = true;
-								item.dataset.complete = true;
-
-								//완료갯수
-								this.complete_n = this.complete_n + 1;
-
-								//연결된 정보 connect 여부에 따른 값설정
-								if (!item.dataset.connect) {
-									//connect가 없다면
-									item.dataset.connect = el_item.dataset.name;
-								} else {
-									//connect가 있다면 , 추가
-									item.dataset.connect =
-										item.dataset.connect + ',' + el_item.dataset.name;
-								}
-								//연결된 정보
-								if (!el_item.dataset.connect) {
-									el_item.dataset.connect = item.dataset.name;
-								} else {
-									el_item.dataset.connect =
-										el_item.dataset.connect + ',' + item.dataset.name;
-								}
-
-								//최종 라인종료 위치
-								el_line.setAttribute(
-									'x2',
-									_rect_item.left + item_w - this.wrap_l
-								);
-								el_line.setAttribute(
-									'y2',
-									_rect_item.top + item_h - this.wrap_t
-								);
-
-								if (_isObject) {
-									el_line.dataset.objectName = item.dataset.name;
-								} else {
-									el_line.dataset.targetName = item.dataset.name;
-								}
-
-								//접근성 현재 연결된 상황 aria-label
-								let object_correct = el_item.dataset.connect;
-								object_correct = object_correct.split(',');
-								let label_txt = '';
-								for (let i = 0; i < object_correct.length; i++) {
-									let el = this.wrap.querySelector(
-										'[data-line-target][data-name="' + object_correct[i] + '"]'
-									);
-
-									if (!is_object) {
-										el = this.wrap.querySelector(
-											`[data-line-object][data-name="${object_correct[i]}"]`
-										);
-									}
-									if (label_txt !== '') {
-										label_txt =
-											label_txt + ', ' + el.getAttribute('aria-label');
-									} else {
-										label_txt = el.getAttribute('aria-label');
-									}
-								}
-
-								console.log('연결', el_item.dataset.label, label_txt)
-								el_item.setAttribute(
-									'aria-label',
-									`${el_item.dataset.label}, ${label_txt} 연결됨`
-								);
-								item.setAttribute(
-									'aria-label',
-									`${el_item.dataset.label}, ${label_txt} 연결됨`
-								);
-
-								//정오답적용
-								const v1 = value.split(',');
-								const v2 = _value.split(',');
-
-								//multiple인 경우 정오답
-								if (this.type === 'multiple') {
-									if (v1.filter(x => v2.includes(x)).length > 0) {
-										el_line.dataset.answer = true;
-										this.answer_n = this.answer_n + 1;
-									} else {
-										el_line.dataset.answer = false;
-										this.answer_n = this.answer_n - 1;
-									}
-								}
-								//single인 경우 정오답
-								else {
-									if (value === _value) {
-										el_line.dataset.answer = true;
-										this.answer_n = this.answer_n + 1;
-									} else {
-										el_line.dataset.answer = false;
-									}
-								}
-								//연결완료성공
-								is_complete = true;
-
-								//answer_last 수정일 경우
-								if (this.answer_last) {
-									for (let i = 0; i < this.answer_last.length; i++) {
-										if (
-											Object.keys(this.answer_last[i]).includes(
-												'key' + el_item.dataset.name
-											)
-										) {
-											this.answer_last.splice(i, 1);
-											this.complete_n = this.complete_n - 1;
-										}
-									}
-								}
-
-								if (is_object) {
-									//this.answer_last 선택값 정보 넣기
-									this.answer_last.push({
-										['key' + el_item.dataset.name]: el_item.dataset.lineObject,
-										['key' + item.dataset.name]: item.dataset.lineTarget,
-										label: el_item.getAttribute('aria-label'),
-									});
-								} else {
-									this.answer_last.push({
-										['key' + el_item.dataset.name]: el_item.dataset.lineTarget,
-										['key' + item.dataset.name]: item.dataset.lineObject,
-										label: item.getAttribute('aria-label'),
-									});
-								}
-								break;
-							}
-						}
-					}
-
-					//이벤트 취소
-					this.doc.removeEventListener('touchmove', actMove);
-					this.doc.removeEventListener('touchend', actEnd);
-					this.doc.removeEventListener('mousemove', actMove);
-					this.doc.removeEventListener('mouseup', actEnd);
-
-					//연결 실패인 경우 라인 삭제 및 이전기록 삭제
-					if (!is_complete) {
-						const object_name = el_line.dataset.objectName;
-						const target_name = el_line.dataset.targetName;
-
-						el_line.remove();
-						//answer_last 수정일 경우
-						if (this.answer_last) {
-							for (let i = 0; i < this.answer_last.length; i++) {
-								if (
-									Object.keys(this.answer_last[i]).includes(
-										'key' + el_item.dataset.name
-									)
-								) {
-									this.answer_last.splice(i, 1);
-									this.complete_n = this.complete_n - 1;
-									const _obj = this.wrap.querySelector(
-										'[data-name="' + object_name + '"]'
-									);
-									if (_obj) _obj.setAttribute('aria-label', _obj.dataset.label);
-									const _trg = this.wrap.querySelector(
-										'[data-name="' + target_name + '"]'
-									);
-									if (_trg) _trg.setAttribute('aria-label', _trg.dataset.label);
-								}
-							}
-						}
-					}
-					if (this.callback) {
-						this.callback({
-							answer_state: this.answer_n === this.answer_len ? true : false,
-							answer_last: this.answer_last,
-						});
-					}
-				}
-				return false;
-			}
+			// 삭제????
 
 			//이벤트주체가 object인지
 			isObject = el_item.dataset.lineObject ? true : false;
@@ -1669,7 +1289,6 @@ class DragLine {
 								}
 							}
 
-							console.log('연결', el_item.dataset.label, '-', label_txt)
 							el_item.setAttribute(
 								'aria-label',
 								`${el_item.dataset.label}, ${label_txt} 연결됨`
@@ -1706,33 +1325,37 @@ class DragLine {
 							is_complete = true;
 
 							//answer_last 수정일 경우
-							if (this.answer_last) {
-								for (let i = 0; i < this.answer_last.length; i++) {
+
+
+							//선택한 정답값이 없는 경우
+							if (isSelectedAnswer) {
+								for (let i = 0; i < this.selectedAnswer.length; i++) {
 									if (
-										Object.keys(this.answer_last[i]).includes(
+										Object.keys(this.selectedAnswer[i]).includes(
 											'key' + el_item.dataset.name
 										)
 									) {
 										if (this.type === 'single') {
-											this.answer_last.splice(i, 1);
+											this.selectedAnswer.splice(i, 1);
 										}
 										this.complete_n = this.complete_n - 1;
 									}
 								}
 							}
+
 							if (is_object) {
-								this.answer_last.push({
-									['key' + el_item.dataset.name]: el_item.dataset.lineObject,
-									['key' + item.dataset.name]: item.dataset.lineTarget,
-									label: el_item.getAttribute('aria-label'),
-								});
+								if (this.type === 'single') {
+									this.selectedAnswer[Number(el_item.dataset.name)] = [];
+								}
+								this.selectedAnswer[Number(el_item.dataset.name)].push(Number(item.dataset.lineTarget));
 							} else {
-								this.answer_last.push({
-									['key' + item.dataset.name]: item.dataset.lineObject,
-									['key' + el_item.dataset.name]: el_item.dataset.lineTarget,
-									label: item.getAttribute('aria-label'),
-								});
+								if (this.type === 'single') {
+									this.selectedAnswer[Number(item.dataset.name)] = [];
+								}
+								this.selectedAnswer[Number(item.dataset.name)].push(Number(el_item.dataset.lineTarget));
 							}
+
+							console.log(this.selectedAnswer);
 							break;
 						}
 					}
@@ -1751,22 +1374,20 @@ class DragLine {
 
 					el_line.remove();
 					//answer_last 수정일 경우
-					if (this.answer_last && this.type === 'single') {
-						for (let i = 0; i < this.answer_last.length; i++) {
+					if (this.selectedAnswer && this.type === 'single') {
+						for (let i = 0; i < this.selectedAnswer.length; i++) {
 							if (
-								Object.keys(this.answer_last[i]).includes(
+								Object.keys(this.selectedAnswer[i]).includes(
 									'key' + el_item.dataset.name
 								)
 							) {
-								this.answer_last.splice(i, 1);
+								this.selectedAnswer.splice(i, 1);
 								this.complete_n = this.complete_n - 1;
 								const _obj = this.wrap.querySelector(
 									'[data-name="' + object_name + '"]'
 								);
 								if (_obj) _obj.setAttribute('aria-label', _obj.dataset.label);
-								const _trg = this.wrap.querySelector(
-									'[data-name="' + target_name + '"]'
-								);
+								const _trg = this.wrap.querySelector('[data-name="' + target_name + '"]');
 								if (_trg) _trg.setAttribute('aria-label', _trg.dataset.label);
 							}
 						}
@@ -1775,7 +1396,7 @@ class DragLine {
 				if (this.callback) {
 					this.callback({
 						answer_state: this.answer_n === this.answer_len ? true : false,
-						answer_last: this.answer_last,
+						answer_last: this.selectedAnswer,
 					});
 				}
 			};
@@ -2019,8 +1640,8 @@ class DragLine {
 								// 	}
 								// }
 
-								//this.answer_last 선택삭제
-								const elements = this.answer_last.entries();
+								//this.selectedAnswer 선택삭제
+								const elements = this.selectedAnswer.entries();
 								for (const [index, _last] of elements) {
 									const key1 = _last['key' + _this.dataset.name];
 									const key2 = _last['key' + el_target.dataset.name];
@@ -2028,7 +1649,7 @@ class DragLine {
 										key1 === _this.dataset.lineObject &&
 										key2 === el_target.dataset.lineTarget
 									) {
-										this.answer_last.splice(index, 1);
+										this.selectedAnswer.splice(index, 1);
 										document
 											.querySelector(
 												`line[data-name="${_this.dataset.name}"][data-target-name="${el_target.dataset.name}"]`
@@ -2049,7 +1670,7 @@ class DragLine {
 									this.callback({
 										answer_state:
 											this.answer_n === this.answer_len ? true : false,
-										answer_last: this.answer_last,
+										answer_last: this.selectedAnswer,
 									});
 								}
 
@@ -2146,15 +1767,15 @@ class DragLine {
 							this.complete_n = this.complete_n + 1;
 
 							//answer_last 수정일 경우
-							if (this.answer_last) {
-								for (let i = 0; i < this.answer_last.length; i++) {
+							if (this.selectedAnswer) {
+								for (let i = 0; i < this.selectedAnswer.length; i++) {
 									if (
-										Object.keys(this.answer_last[i]).includes(
+										Object.keys(this.selectedAnswer[i]).includes(
 											'key' + _this.dataset.name
 										)
 									) {
 										if (this.type === 'single') {
-											this.answer_last.splice(i, 1);
+											this.selectedAnswer.splice(i, 1);
 										}
 										this.complete_n = this.complete_n - 1;
 									}
@@ -2162,13 +1783,13 @@ class DragLine {
 							}
 
 							if (_this.dataset.lineObject) {
-								this.answer_last.push({
+								this.selectedAnswer.push({
 									['key' + _this.dataset.name]: _this.dataset.lineObject,
 									['key' + el_target.dataset.name]:
 										el_target.dataset.lineTarget,
 								});
 							} else {
-								this.answer_last.push({
+								this.selectedAnswer.push({
 									['key' + el_target.dataset.name]:
 										el_target.dataset.lineObject,
 									['key' + _this.dataset.name]: _this.dataset.lineTarget,
@@ -2178,7 +1799,7 @@ class DragLine {
 								this.callback({
 									answer_state:
 										this.answer_n === this.answer_len ? true : false,
-									answer_last: this.answer_last,
+									answer_last: this.selectedAnswer,
 								});
 							}
 							if (_menu) _menu.remove();
@@ -2222,7 +1843,7 @@ class DragLine {
         /*현재정답갯수  */ answer_current_sum: this.answer_n,
         /*전체정오답상태*/ answer_all_state:
 					this.answer_len === this.answer_n ? true : false,
-        /*히스토리     */ answer_last: this.answer_last,
+        /*히스토리     */ answer_last: this.selectedAnswer,
 			});
 		}
 	}
@@ -2244,13 +1865,13 @@ class DragLine {
 		}
 
 		if (isDeep) {
-			this.answer_last = [];
+			this.selectedAnswer = [];
 		}
 		this.wrap.dataset.state = '';
 		this.complete_n = 0;
 		this.answer_n = 0;
 
-		console.log('isDeep', isDeep, this.answer_last);
+		console.log('isDeep', isDeep, this.selectedAnswer);
 	};
 
 	//정오답체크
@@ -2261,7 +1882,7 @@ class DragLine {
 				answer_all_sum: this.answer_len,
 				answer_current_sum: this.answer_n,
 				answer_all_state: this.answer_len === this.answer_n ? true : false,
-				answer_last: this.answer_last,
+				answer_last: this.selectedAnswer,
 			});
 		}
 	};
@@ -2296,13 +1917,13 @@ class DragLine {
 		//새로운 정답정보가 있다면 교체
 		if (v) {
 			this.reset();
-			this.answer_last = v.lastAnswer;
-		} else if (!this.answer_last.length) {
+			this.selectedAnswer = v.lastAnswer;
+		} else if (!this.selectedAnswer.length) {
 			return false;
 		}
 
-		for (let i = 0; i < this.answer_last.length; i++) {
-			const item = this.answer_last[i];
+		for (let i = 0; i < this.selectedAnswer.length; i++) {
+			const item = this.selectedAnswer[i];
 			const keyname = Object.keys(item);
 			const el_object = this.wrap.querySelector(
 				`[data-name="${keyname[0].split('key')[1]}"]`
