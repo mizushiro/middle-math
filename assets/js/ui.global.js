@@ -846,6 +846,7 @@ class MultipleChoice {
 			item.addEventListener('click', act);
 		});
 	}
+	//리셋할때 this.answer.selectedAnswer의 배열값 다시 설정 필요해보임.
 	reset = v => {
 		const isDeep = v;
 		for (let item of this.items) {
@@ -1119,20 +1120,12 @@ class DragLine {
 
 			let is_object;
 			let el_line;
-			let value;
 			let data_name;
 			let rect_item;
 			let item_w;
 			let item_h;
 			let x_value;
 			let y_value;
-
-			const isSelectedAnswer = this.selectedAnswer[Number(el_item.dataset.name)];
-
-
-console.log('start', _drag, _drag.dataset.ing);
-
-			// 삭제????
 
 			//이벤트주체가 object인지
 			isObject = el_item.dataset.lineObject ? true : false;
@@ -1231,10 +1224,6 @@ console.log('start', _drag, _drag.dataset.ing);
 
 						//연결성공
 						if (if_true && !is_selected) {
-							//연결된 아이템 완료상태
-							el_item.dataset.complete = true;
-							item.dataset.complete = true;
-
 							//완료갯수
 							this.complete_n = this.complete_n + 1;
 
@@ -1272,90 +1261,55 @@ console.log('start', _drag, _drag.dataset.ing);
 							let object_correct = el_item.dataset.connect;
 							object_correct = object_correct.split(',');
 							let label_txt = '';
-							for (let i = 0; i < object_correct.length; i++) {
-								let el = this.wrap.querySelector(
-									'[data-line-target][data-name="' + object_correct[i] + '"]'
+
+							if (is_object) {
+								if (el_item.dataset.complete === 'true') {
+									label_txt = el_item.getAttribute('aria-label') + ', ' + item.dataset.label;
+								} else {
+									label_txt = item.dataset.label;
+								}
+
+								el_item.setAttribute(
+								  'aria-label',
+								 	`${el_item.dataset.label}은(는)  ${label_txt} 연결됨`
 								);
-
-								if (!is_object) {
-									el = this.wrap.querySelector(
-										'[data-line-object][data-name="' + object_correct[i] + '"]'
-									);
-								}
-								if (label_txt !== '') {
-									label_txt = label_txt + ', ' + el.getAttribute('aria-label');
+							} else {
+								if (item.dataset.complete === 'true') {
+									label_txt = item.getAttribute('aria-label') + ', ' + el_item.dataset.label;
 								} else {
-									label_txt = el.getAttribute('aria-label');
+									label_txt = el_item.dataset.label;
 								}
+
+								item.setAttribute(
+									'aria-label',
+									`${item.dataset.label}은(는)  ${label_txt} 연결됨`
+								);
 							}
 
-							el_item.setAttribute(
-								'aria-label',
-								`${el_item.dataset.label}, ${label_txt} 연결됨`
-							);
-							// item.setAttribute(
-							//   'aria-label',
-							//   `${el_item.dataset.label}, ${label_txt} 연결됨`
-							// );
+							//연결된 아이템 완료상태
+							el_item.dataset.complete = true;
+							item.dataset.complete = true;
 
-							//정오답적용
-							const v1 = value.split(',');
-							const v2 = _value.split(',');
-
-							//multiple인 경우 정오답
-							if (this.type === 'multiple') {
-								if (v1.filter(x => v2.includes(x)).length > 0) {
-									el_line.dataset.answer = true;
-									this.answer_n = this.answer_n + 1;
-								} else {
-									el_line.dataset.answer = false;
-									this.answer_n = this.answer_n - 1;
-								}
-							}
-							//single인 경우 정오답
-							else {
-								if (value === _value) {
-									el_line.dataset.answer = true;
-									this.answer_n = this.answer_n + 1;
-								} else {
-									el_line.dataset.answer = false;
-								}
-							}
 							//연결완료성공
 							is_complete = true;
 
-							//answer_last 수정일 경우
-
-
-							//선택한 정답값이 없는 경우
-							if (isSelectedAnswer) {
-								for (let i = 0; i < this.selectedAnswer.length; i++) {
-									if (
-										Object.keys(this.selectedAnswer[i]).includes(
-											'key' + el_item.dataset.name
-										)
-									) {
-										if (this.type === 'single') {
-											this.selectedAnswer.splice(i, 1);
-										}
-										this.complete_n = this.complete_n - 1;
-									}
-								}
-							}
-
+							//선택한 답 저장
+							//시작점이 object
 							if (is_object) {
 								if (this.type === 'single') {
-									this.selectedAnswer[Number(el_item.dataset.name)] = [];
+									this.answer.selectedAnswer[Number(el_item.dataset.name)] = [];
 								}
-								this.selectedAnswer[Number(el_item.dataset.name)].push(Number(item.dataset.lineTarget));
-							} else {
+								this.answer.selectedAnswer[Number(el_item.dataset.name)].push(Number(item.dataset.lineTarget));
+							} 
+							//시작점이 target
+							else {
 								if (this.type === 'single') {
-									this.selectedAnswer[Number(item.dataset.name)] = [];
+									this.answer.selectedAnswer[Number(item.dataset.name)] = [];
 								}
-								this.selectedAnswer[Number(item.dataset.name)].push(Number(el_item.dataset.lineTarget));
+								this.answer.selectedAnswer[Number(item.dataset.name)].push(Number(el_item.dataset.lineTarget));
 							}
 
-							console.log(this.selectedAnswer);
+							console.log(this.answer.selectedAnswer);
 							break;
 						}
 					}
@@ -1374,14 +1328,14 @@ console.log('start', _drag, _drag.dataset.ing);
 
 					el_line.remove();
 					//answer_last 수정일 경우
-					if (this.selectedAnswer && this.type === 'single') {
-						for (let i = 0; i < this.selectedAnswer.length; i++) {
+					if (this.answer.selectedAnswer && this.type === 'single') {
+						for (let i = 0; i < this.answer.selectedAnswer.length; i++) {
 							if (
-								Object.keys(this.selectedAnswer[i]).includes(
+								Object.keys(this.answer.selectedAnswer[i]).includes(
 									'key' + el_item.dataset.name
 								)
 							) {
-								this.selectedAnswer.splice(i, 1);
+								this.answer.selectedAnswer.splice(i, 1);
 								this.complete_n = this.complete_n - 1;
 								const _obj = this.wrap.querySelector(
 									'[data-name="' + object_name + '"]'
@@ -1393,12 +1347,13 @@ console.log('start', _drag, _drag.dataset.ing);
 						}
 					}
 				}
-				if (this.callback) {
-					this.callback({
-						answer_state: this.answer_n === this.answer_len ? true : false,
-						answer_last: this.selectedAnswer,
-					});
-				}
+				
+				//callback
+				this.callback({
+					el: this.wrap, 
+					data: this.answer,
+				});
+				
 			};
 			actMove = e => {
 				e.preventDefault();
@@ -1560,9 +1515,7 @@ console.log('start', _drag, _drag.dataset.ing);
 					const menuItem = e.currentTarget;
 					const wrap = menuItem.parentNode;
 					const sel_val = Number(menuItem.value);
-					const el_target = this.wrap.querySelector(
-						'[data-line-target="' + sel_val + '"]'
-					);
+					const el_target = this.wrap.querySelector('[data-line-target="' + sel_val + '"]');
 
 					let objFocus;
 
@@ -1596,6 +1549,7 @@ console.log('start', _drag, _drag.dataset.ing);
 							break;
 
 						case 'Enter':
+							//취소---
 							if (menuItem.dataset.cancel === 'true') {
 								_menu.remove();
 
@@ -1603,84 +1557,41 @@ console.log('start', _drag, _drag.dataset.ing);
 								let ary_conect = _this.dataset.connect.split(',');
 								let ary_conect2 = [];
 								ary_conect.filter(v => {
-									if (v !== el_target.dataset.name) {
+									if (v === el_target.dataset.name) {
+										this.svg.querySelector(`line[data-object-name="${_this.dataset.name}"][data-target-name="${v}"]`).remove();
+									} else {
 										ary_conect2.push(v);
 									}
 								});
 								_this.dataset.connect = ary_conect2;
 
 								//생성된 라인삭제 및 초기화
-								el_line.remove();
+								el_line.remove();//ing
 								el_target.dataset.complete = false;
 								_this.dataset.active = '';
 								_this.dataset.complete = false;
 								_this.focus();
 
-								const value = _this.dataset.lineObject;
-								const _value = el_target.dataset.lineTarget;
-								const v1 = value.split(',');
-								const v2 = _value.split(',');
-
-								if (this.type === 'multiple') {
-									//multiple인 경우 정오답
-									if (v1.filter(x => v2.includes(x)).length > 0) {
-										el_line.dataset.answer = true;
-									} else {
-										el_line.dataset.answer = false;
-									}
+								//취소한 답 제외 저장
+								const del_answer = this.wrap.querySelector(`[data-name="${el_target.dataset.name}"]`).dataset.lineTarget;
+								let filtered = this.answer.selectedAnswer[Number(_this.dataset.name)].filter((element) => element !== Number(del_answer));
+								if (this.type === 'single') {
+									this.answer.selectedAnswer[Number(_this.dataset.name)] = [];
 								}
+								this.answer.selectedAnswer[Number(_this.dataset.name)] = filtered;
 
-								// else {
-								// 	//single인 경우 정오답
-								// 	if (value === _value) {
-								// 		el_line.dataset.answer = true;
-								// 		this.answer_n = this.answer_n - 1;
-								// 	} else {
-								// 		el_line.dataset.answer = false;
-								// 	}
-								// }
-
-								//this.selectedAnswer 선택삭제
-								const elements = this.selectedAnswer.entries();
-								for (const [index, _last] of elements) {
-									const key1 = _last['key' + _this.dataset.name];
-									const key2 = _last['key' + el_target.dataset.name];
-									if (
-										key1 === _this.dataset.lineObject &&
-										key2 === el_target.dataset.lineTarget
-									) {
-										this.selectedAnswer.splice(index, 1);
-										document
-											.querySelector(
-												`line[data-name="${_this.dataset.name}"][data-target-name="${el_target.dataset.name}"]`
-											)
-											.remove();
-									}
-								}
-
-								const trueLines = this.svg.querySelectorAll(
-									'line[data-answer="true"]'
-								);
-								const falseLines = this.svg.querySelectorAll(
-									'line[data-answer="false"]'
-								);
-								this.answer_n = trueLines?.length - falseLines?.length;
-								//콜백
-								if (this.callback) {
-									this.callback({
-										answer_state:
-											this.answer_n === this.answer_len ? true : false,
-										answer_last: this.selectedAnswer,
-									});
-								}
+								//callback
+								this.callback({
+									el: this.wrap, 
+									data: this.answer,
+								});
 
 								return false;
 							}
+							//----취소
 
 							el_line.dataset.state = 'complete';
-							el_target.dataset.complete = true;
 							_this.dataset.active = '';
-							_this.dataset.complete = true;
 							_this.focus();
 
 							//target 연결된 정보
@@ -1713,95 +1624,36 @@ console.log('start', _drag, _drag.dataset.ing);
 							el_line.dataset.targetName = el_target.dataset.name;
 
 							//접근성 aria-label
-							let object_correct = _this.dataset.connect;
-
-							object_correct = object_correct.split(',');
 							let label_txt = '';
-
+							let object_correct = _this.dataset.connect;
+							object_correct = object_correct.split(',');
 							for (let i = 0; i < object_correct.length; i++) {
-								const el = this.wrap.querySelector(
-									'[data-line-target][data-name="' + object_correct[i] + '"]'
-								);
-								if (label_txt !== '') {
-									label_txt = label_txt + ', ' + el.getAttribute('aria-label');
+								const el = this.wrap.querySelector('[data-line-target][data-name="' + object_correct[i] + '"]');
+								if (label_txt) {
+									label_txt = label_txt + ', '+ el.dataset.label;
 								} else {
-									label_txt = el.getAttribute('aria-label');
+									label_txt = el.dataset.label;
 								}
 							}
 							_this.setAttribute(
 								'aria-label',
-								`${_this.dataset.label}, ${label_txt} 연결됨`
+								`${_this.dataset.label}은(는) ${label_txt} 연결됨`
 							);
 
-							//정오답적용
-							const value = _this.dataset.lineObject;
-							const _value = el_target.dataset.lineTarget;
-							const v1 = value.split(',');
-							const v2 = _value.split(',');
-
-							if (this.type === 'multiple') {
-								//multiple인 경우 정오답
-								if (v1.filter(x => v2.includes(x)).length > 0) {
-									el_line.dataset.answer = true;
-								} else {
-									el_line.dataset.answer = false;
-								}
-							} else {
-								//single인 경우 정오답
-								if (value === _value) {
-									el_line.dataset.answer = true;
-								} else {
-									el_line.dataset.answer = false;
-								}
+							//선택한 답 저장
+							if (this.type === 'single') {
+								this.answer.selectedAnswer[Number(_this.dataset.name)] = [];
 							}
+							this.answer.selectedAnswer[Number(_this.dataset.name)].push(Number(el_target.dataset.lineTarget));
 
-							const trueLines = this.svg.querySelectorAll(
-								'line[data-answer="true"]'
-							);
-							const falseLines = this.svg.querySelectorAll(
-								'line[data-answer="false"]'
-							);
-							this.answer_n = trueLines?.length - falseLines?.length;
+							//연결된 아이템 완료상태
+							_this.dataset.complete = true;
+							el_target.dataset.complete = true;
 
-							//콜백정보정리
-							this.complete_n = this.complete_n + 1;
-
-							//answer_last 수정일 경우
-							if (this.selectedAnswer) {
-								for (let i = 0; i < this.selectedAnswer.length; i++) {
-									if (
-										Object.keys(this.selectedAnswer[i]).includes(
-											'key' + _this.dataset.name
-										)
-									) {
-										if (this.type === 'single') {
-											this.selectedAnswer.splice(i, 1);
-										}
-										this.complete_n = this.complete_n - 1;
-									}
-								}
-							}
-
-							if (_this.dataset.lineObject) {
-								this.selectedAnswer.push({
-									['key' + _this.dataset.name]: _this.dataset.lineObject,
-									['key' + el_target.dataset.name]:
-										el_target.dataset.lineTarget,
-								});
-							} else {
-								this.selectedAnswer.push({
-									['key' + el_target.dataset.name]:
-										el_target.dataset.lineObject,
-									['key' + _this.dataset.name]: _this.dataset.lineTarget,
-								});
-							}
-							if (this.callback) {
-								this.callback({
-									answer_state:
-										this.answer_n === this.answer_len ? true : false,
-									answer_last: this.selectedAnswer,
-								});
-							}
+							this.callback({
+								el: this.wrap, 
+								data: this.answer,
+							});
 							if (_menu) _menu.remove();
 							if (!isEnd) {
 								el_line.remove();
@@ -1838,18 +1690,25 @@ console.log('start', _drag, _drag.dataset.ing);
 
 	completeCallback() {
 		if (this.callbackComplete) {
-			this.callbackComplete({
-        /*전체정답갯수  */ answer_all_sum: this.answer_len,
-        /*현재정답갯수  */ answer_current_sum: this.answer_n,
-        /*전체정오답상태*/ answer_all_state:
-					this.answer_len === this.answer_n ? true : false,
-        /*히스토리     */ answer_last: this.selectedAnswer,
-			});
+			// this.callbackComplete({
+      //   /*전체정답갯수  */ answer_all_sum: this.answer_len,
+      //   /*현재정답갯수  */ answer_current_sum: this.answer_n,
+      //   /*전체정오답상태*/ answer_all_state:
+			// 		this.answer_len === this.answer_n ? true : false,
+      //   /*히스토리     */ answer_last: this.answer.selectedAnswer,
+			// });
+
+			// this.callbackComplete({
+			// 	el: this.wrap, 
+			// 	data: this.answer,
+			// });
 		}
 	}
 
 	//초기화 실행
+	//리셋할때 this.answer.selectedAnswer의 배열값 다시 설정 필요해보임.
 	reset = v => {
+		console.log('reset',v);
 		const isDeep = v;
 		for (let item of this.items) {
 			item.removeAttribute('data-state');
@@ -1865,25 +1724,28 @@ console.log('start', _drag, _drag.dataset.ing);
 		}
 
 		if (isDeep) {
-			this.selectedAnswer = [];
+			this.answer.selectedAnswer = [];
 		}
 		this.wrap.dataset.state = '';
-		this.complete_n = 0;
-		this.answer_n = 0;
 
-		console.log('isDeep', isDeep, this.selectedAnswer);
+		console.log('isDeep', isDeep, this.answer.selectedAnswer);
 	};
 
 	//정오답체크
 	check = () => {
 		this.wrap.dataset.state = 'check';
 		if (this.callbackCheck) {
-			this.callbackCheck({
-				answer_all_sum: this.answer_len,
-				answer_current_sum: this.answer_n,
-				answer_all_state: this.answer_len === this.answer_n ? true : false,
-				answer_last: this.selectedAnswer,
-			});
+			// this.callbackCheck({
+			// 	answer_all_sum: this.answer_len,
+			// 	answer_current_sum: this.answer_n,
+			// 	answer_all_state: this.answer_len === this.answer_n ? true : false,
+			// 	answer_last: this.selectedAnswer,
+			// });
+
+			// this.callbackCheck({
+			// 	el: this.wrap, 
+			// 	data: this.answer,
+			// });
 		}
 	};
 
@@ -1993,7 +1855,7 @@ class Layer {
 		this.src = opt.src;
 		this.type = !opt.type ? 'modal' : opt.type;
 		this.classname = opt.classname ? opt.classname : '',
-			this.callback = opt.callback;
+		this.callback = opt.callback;
 		this.callback_close = opt.callback_close;
 
 		//system 

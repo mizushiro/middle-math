@@ -104,7 +104,7 @@
 							id: 'aa-00-02-01', //문제 아이디
 							answer: {
 								checked: null, //문제 채점여부
-								correctAnswer: [1, [2, 3], 3], //정답
+								correctAnswer: [[1], [2,3], [3]], //정답
 								selectedAnswer: [], //내가 선택한 답 
 								isCorrect: null, //정답 여부 [null | false | true]
 							},
@@ -125,7 +125,7 @@
 									// answerSum: data.answer.answerSum,
 									// lastAnswer: data.answer.lastAnswer,
 									callback: (v) => {
-									
+										console.log('callback: ', v.data.selectedAnswer);
 										// UI.student.pages[1].answer.isAnswer = v.answer_state;
 										// UI.student.pages[1].answer.lastAnswer = v.answer_last;
 										// console.log('callback', UI.student.pages[1].answer);
