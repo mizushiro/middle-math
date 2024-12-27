@@ -1143,9 +1143,9 @@ class DragLine {
 
 			is_object = el_item.dataset.lineObject ? true : false;
 			el_line = this.svg.querySelector('line[data-state="ing"]');
-			value = is_object
-				? el_item.dataset.lineObject
-				: el_item.dataset.lineTarget;
+			// value = is_object
+			// 	? el_item.dataset.lineObject
+			// 	: el_item.dataset.lineTarget;
 			data_name = el_item.dataset.name;
 
 			if (this.type === 'single') {
@@ -1396,9 +1396,9 @@ class DragLine {
 					el_item.dataset.active = '';
 					el_item = firstTouch.item;
 					is_object = firstTouch.is_object;
-					value = is_object
-						? firstTouch.item.dataset.lineObject
-						: firstTouch.item.dataset.lineTarget;
+					// value = is_object
+					// 	? firstTouch.item.dataset.lineObject
+					// 	: firstTouch.item.dataset.lineTarget;
 					_x = e.clientX ? e.clientX : e.targetTouches[0].clientX;
 					_y = e.clientY ? e.clientY : e.targetTouches[0].clientY;
 
